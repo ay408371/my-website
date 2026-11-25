@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FinSpark — a friendly AI finance advisor for families and students." />
+  <title>FinSpark — AI Finance Advisor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="nav container">
+    <a class="brand" href="#" aria-label="FinSpark home">
+      <span class="brand-mark">F</span>
+      <span>FinSpark</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#calculator">Planner</a>
+    </div>
+    <button class="nav-cta" type="button" onclick="document.querySelector('#calculator').scrollIntoView({behavior:'smooth'})">Start planning</button>
+  </nav>
+
+  <main>
+    <section class="hero container">
+      <div class="hero-copy">
+        <div class="eyebrow"><span>✦</span> Your friendly money companion</div>
+        <h1>Make your money <span>feel simple.</span></h1>
+        <p>Smart, easy-to-understand money guidance for students and families—powered by AI, designed for real life.</p>
+        <div class="hero-actions">
+          <button class="primary-btn" type="button" onclick="document.querySelector('#calculator').scrollIntoView({behavior:'smooth'})">Create my plan <span>→</span></button>
+          <a class="text-btn" href="#how">See how it works <span>↓</span></a>
+        </div>
+        <div class="trust-row">
+          <div class="avatars-mini" aria-hidden="true">
+            <span class="mini-ava a1">A</span><span class="mini-ava a2">R</span><span class="mini-ava a3">S</span>
+          </div>
+          <p><strong>10k+ happy planners</strong><br />small steps, big progress</p>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-label="Friendly finance illustration">
+        <div class="blob"></div>
+        <div class="orbit orbit-one"><span>₹</span></div>
+        <div class="orbit orbit-two"><span>★</span></div>
+        <div class="main-card">
+          <div class="card-head">
+            <div><small>Monthly savings</small><strong>₹8,450</strong></div>
+            <div class="trend">↗ 18%</div>
+          </div>
+          <div class="chart" aria-hidden="true">
+            <div class="grid-line l1"></div><div class="grid-line l2"></div><div class="grid-line l3"></div>
+            <svg viewBox="0 0 300 120" role="img" aria-label="Savings rising chart">
+              <defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff8b6a" stop-opacity=".38"/><stop offset="1" stop-color="#ff8b6a" stop-opacity="0"/></linearGradient></defs>
+              <path d="M0 105 C35 100,45 82,75 88 S125 68,150 72 S195 44,220 52 S260 20,300 26 L300 120 L0 120 Z" fill="url(#area)"/>
+              <path d="M0 105 C35 100,45 82,75 88 S125 68,150 72 S195 44,220 52 S260 20,300 26" fill="none" stroke="#fb8061" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="300" cy="26" r="7" fill="#fff" stroke="#fb8061" stroke-width="4"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="character student-char">
+          <div class="bubble">Goal: 🎓<br /><b>Study fund</b></div>
+          <div class="head"><div class="hair"></div><div class="face"><i></i><i></i><span></span></div></div>
+          <div class="body"><div class="bag"></div></div>
+        </div>
+
+        <div class="character family-char">
+          <div class="bubble bubble-small">On track! <b>✓</b></div>
+          <div class="head"><div class="hair"></div><div class="face"><i></i><i></i><span></span></div></div>
+          <div class="body"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features container" id="features">
+      <div class="section-heading">
+        <div><span class="kicker">SMART & SIMPLE</span><h2>A little guidance. A lot of progress.</h2></div>
+        <p>One friendly place to understand, plan and grow your money.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card mint">
+          <div class="feature-icon">◒</div>
+          <h3>Understand where it goes</h3>
+          <p>Turn everyday spending into clear, friendly insights.</p>
+          <div class="donut-wrap"><div class="donut"><span>65%<small>essentials</small></span></div></div>
+        </article>
+        <article class="feature-card peach">
+          <div class="feature-icon">◎</div>
+          <h3>Set goals that feel possible</h3>
+          <p>Break dreams into simple, achievable monthly steps.</p>
+          <div class="goal-progress"><span>New laptop</span><strong>72%</strong><div><i></i></div><small>₹36,000 saved</small></div>
+        </article>
+        <article class="feature-card lilac">
+          <div class="feature-icon">✦</div>
+          <h3>Get advice made for you</h3>
+          <p>Ask questions and get simple answers—without the jargon.</p>
+          <div class="chat-preview"><span>How can I save more?</span><p><b>FinSpark</b> Try a 50–30–20 plan! ✨</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="how container" id="how">
+      <span class="kicker">HOW IT WORKS</span>
+      <h2>Three easy steps to feel on track</h2>
+      <div class="steps">
+        <article><span class="step-num">1</span><div class="step-art"><div class="phone">₹ <b>••••</b></div></div><h3>Tell us your goal</h3><p>Education, a family trip or simply peace of mind.</p></article>
+        <article><span class="step-num">2</span><div class="step-art"><div class="brain">✦</div></div><h3>Get a simple plan</h3><p>Your AI advisor turns your situation into clear steps.</p></article>
+        <article><span class="step-num">3</span><div class="step-art"><div class="plant"><i></i><b>₹</b></div></div><h3>Grow with confidence</h3><p>Track progress and adjust whenever life changes.</p></article>
+      </div>
+    </section>
+
+    <section class="calculator-wrap" id="calculator">
+      <div class="calculator container">
+        <div class="calculator-copy">
+          <span class="kicker">FREE MONEY PLANNER</span>
+          <h2>What could you save each month?</h2>
+          <p>Move the sliders for a quick, friendly estimate.</p>
+        </div>
+        <form class="planner-card" id="plannerForm">
+          <label>Monthly income <strong id="incomeValue">₹50,000</strong></label>
+          <input id="income" type="range" min="5000" max="200000" step="5000" value="50000" />
+          <label>Monthly expenses <strong id="expenseValue">₹30,000</strong></label>
+          <input id="expense" type="range" min="0" max="200000" step="5000" value="30000" />
+          <div class="savings-result"><div><small>Estimated monthly saving</small><strong id="savingValue">₹20,000</strong></div><div class="coin">₹</div></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <a class="brand" href="#"><span class="brand-mark">F</span><span>FinSpark</span></a>
+    <p>Simple guidance for brighter financial days.</p>
+    <span>© 2026 FinSpark</span>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
