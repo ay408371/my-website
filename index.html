@@ -1,86 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#eef7f1" />
-  <title>FinSpark — Your Money, Made Friendly</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#eef4fb" />
+  <meta name="description" content="A friendly AI money planner for students and families." />
+  <title>FinSpark — Your money, in perspective</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="grain"></div>
-  <nav class="nav container">
-    <a class="brand" href="index.html"><span class="brand-mark">F</span><span>FinSpark</span></a>
-    <div class="nav-links">
-      <a href="#today">Today</a><a href="#features">Features</a><a href="#planner">Planner</a>
-    </div>
-    <a class="nav-login" href="login.html">Log in <span>→</span></a>
-  </nav>
-
-  <main>
-    <section class="hero container" id="today">
-      <div class="hero-copy">
-        <div class="greeting" id="greeting"><span id="greetingIcon">☀</span><span id="greetingText">Good morning</span></div>
-        <p class="today-date" id="todayDate"></p>
-        <h1>Small steps.<br /><span>Bright future.</span></h1>
-        <p class="hero-sub">A friendly AI finance companion for students and families to save, plan and grow with confidence.</p>
-        <div class="hero-actions">
-          <a class="primary-btn" href="#planner">Plan for today <span>→</span></a>
-          <a class="text-btn" href="#features">Explore features <span>↓</span></a>
-        </div>
+  <header class="topbar"><a class="brand" href="#top"><span class="brand-icon">f</span> finspark</a><nav><a href="#overview">Overview</a><a href="#budget">Your budget</a><a href="#goals">Goals</a></nav><a class="login-link" href="login.html">Log in <span>↗</span></a></header>
+  <main id="top" class="page-shell">
+    <section class="hero" id="overview">
+      <div class="hero-copy"><div class="eyebrow"><span class="sun-mark">☼</span><span>A LITTLE PLANNING. A LOT OF POSSIBILITY.</span></div><div class="pause-link">Your friendly money planner</div>
+        <h1>Your money.<br /><em>In perspective.</em></h1>
+        <p>A little less guesswork. A little more confidence. Bring your spending, savings and next big plan into focus.</p>
+        <div class="hero-actions"><a class="button primary" href="#budget">Fine-tune your budget <span>↗</span></a><span class="aside-note">One month. One<br />step forward.</span></div>
       </div>
-
-      <div class="scene" aria-label="3D-style finance illustration">
-        <div class="scene-orb orb-one"></div><div class="scene-orb orb-two"></div>
-        <div class="sun-disc"></div>
-        <article class="balance-card glass-card">
-          <div class="card-top"><span>Today's plan</span><span class="live-dot">● Live</span></div>
-          <small>Safe to spend</small>
-          <strong id="safeSpend">₹850</strong>
-          <div class="progress"><i></i></div>
-          <div class="card-bottom"><span><b>₹12,400</b><small>saved</small></span><span><b>72%</b><small>goal</small></span></div>
-        </article>
-
-        <div class="coin coin-one">₹</div><div class="coin coin-two">★</div>
-        <div class="student-character">
-          <div class="bubble">Goal: <b>My laptop</b></div>
-          <div class="head"><div class="hair"></div><div class="face"><i></i><i></i><b></b></div></div>
-          <div class="student-body"><div class="backpack"></div></div>
-        </div>
-        <div class="family-character">
-          <div class="family-head"><div class="family-hair"></div><div class="family-face"><i></i><i></i><b></b></div></div>
-          <div class="family-body"><span>♥</span></div>
-        </div>
-      </div>
+      <div class="overview-card" id="overviewCard"><div class="overview-top"><div><span class="overline">AVAILABLE THIS MONTH</span><strong id="heroRemaining">₹17,700</strong><small>Income minus planned expenses</small></div><div class="spend-ring" id="spendRing"><div><b id="ringPercent">76%</b><small>of income spent</small></div></div></div><p class="left-to-go">You have <b id="heroLeft">₹17,700</b> left to put toward your next goal.</p><div class="overview-foot"><div><small>Monthly income</small><b id="heroIncome">₹75,000</b></div><div><small>Planned expenses</small><b id="heroExpenses">₹57,300</b></div><span class="budget-pill">Family budget</span></div><div class="mascot-float" aria-hidden="true"><div class="mascot-coin">₹</div><div class="mascot-body"><i class="eye eye-left"></i><i class="eye eye-right"></i><b></b></div><div class="mascot-feet"></div></div></div>
     </section>
 
-    <section class="features container" id="features">
-      <div class="section-heading"><div><span class="kicker">MADE FOR REAL LIFE</span><h2>Money feels easier here</h2></div><p>Clear guidance for everyday choices—no confusing jargon.</p></div>
-      <div class="feature-grid">
-        <article class="feature-card sage"><span class="feature-icon">◔</span><h3>Know your day</h3><p>See what you can comfortably spend today.</p><div class="day-ring"><span>68%<small>on track</small></span></div></article>
-        <article class="feature-card apricot"><span class="feature-icon">◎</span><h3>Dream, without worry</h3><p>Turn goals into tiny, achievable steps.</p><div class="mini-goal"><div><span>Education fund</span><b>72%</b></div><i><b></b></i><small>₹36,000 saved</small></div></article>
-        <article class="feature-card lavender"><span class="feature-icon">✦</span><h3>Ask FinSpark</h3><p>Friendly answers, made especially for you.</p><div class="chat"><span>How can I save more?</span><p><b>FinSpark</b><br />Try saving ₹100 a day ✨</p></div></article>
-      </div>
-    </section>
+    <section class="month-section"><div class="section-title-row"><h2>Your month at a glance</h2><span class="live-note"><i></i> Updates as you type</span></div><div class="metric-grid">
+      <article class="metric"><div class="metric-title">Monthly Income <span class="metric-icon">↙</span></div><strong id="incomeMetric">₹75,000</strong><small>Salary and other family income</small></article>
+      <article class="metric"><div class="metric-title">Monthly Expenses <span class="metric-icon coral-icon">↗</span></div><strong id="expenseMetric">₹57,300</strong><small><span id="spentCaption">76.4%</span> of your income spent</small></article>
+      <article class="metric highlight"><div class="metric-title">Money Left <span class="metric-icon">▱</span></div><strong id="leftMetric">₹17,700</strong><small>Money left after expenses</small></article>
+      <article class="metric"><div class="metric-title">Savings Rate <span class="metric-icon">⌁</span></div><strong id="savingsRate">23.6%</strong><small>Aim to save 20%–30% of your income</small></article>
+    </div></section>
 
-    <section class="planner-section" id="planner">
-      <div class="planner container">
-        <div class="planner-copy"><span class="kicker">TODAY'S PLANNER</span><h2>Make today count</h2><p>Adjust your monthly picture for an instant saving estimate.</p></div>
-        <form class="planner-card" id="plannerForm">
-          <label>Monthly income <b id="incomeValue">₹50,000</b></label>
-          <input id="income" type="range" min="5000" max="200000" step="5000" value="50000" />
-          <label>Monthly expenses <b id="expenseValue">₹30,000</b></label>
-          <input id="expense" type="range" min="0" max="200000" step="5000" value="30000" />
-          <div class="saving-box"><span><small>You can save</small><strong id="savingValue">₹20,000</strong></span><div class="saving-coin">₹</div></div>
-        </form>
-      </div>
-    </section>
-  </main>
+    <section class="quick-actions" aria-label="Budget tools"><a href="#budget"><span>▣</span><b>Fine-tune your budget</b><small>Make every rupee count</small><i>↗</i></a><a href="#goals"><span>◎</span><b>Set a savings goal</b><small>Give your plans a purpose</small><i>↗</i></a><a href="#assistant"><span>✧</span><b>Ask Nexus AI</b><small>A little help with the numbers</small><i>↗</i></a><a href="#budget"><span>⇧</span><b>Import expenses</b><small>Less typing, more clarity</small><i>↗</i></a></section>
 
-  <footer class="footer container"><a class="brand" href="index.html"><span class="brand-mark">F</span><span>FinSpark</span></a><p>Simple guidance for brighter days.</p><span id="footerDate">© 2026 FinSpark</span></footer>
+    <section class="content-section"><div class="section-heading"><div><span class="section-kicker">01 / THE BIG PICTURE</span><h2>A clearer picture of spending.</h2></div></div><div class="two-col">
+      <article class="panel spending-panel"><div class="panel-heading"><div><h3>Where your budget goes</h3><p>Category breakdown of your current monthly budget.</p></div></div><div class="spending-content"><div class="donut" id="expenseDonut"><div><b id="donutTotal">₹57,300</b><small>monthly expenses</small></div></div><div class="legend" id="legend"></div></div></article>
+      <article class="panel history-panel"><div class="panel-heading"><div><h3>Month by month</h3><p>Save a snapshot of your budget. Your history stays on this device.</p></div></div><div class="history-plot" id="historyPlot"><div class="empty-chart"><span class="chart-emoji">▥</span><b>Your story starts this month.</b><small>Save your first snapshot below.<br />Watch your monthly picture take shape.</small></div></div><div class="snapshot-row"><label>Budget month<input id="snapshotMonth" type="month" /></label><button class="button primary" id="saveSnapshot" type="button">Save monthly snapshot</button></div><p class="inline-message" id="snapshotMessage" aria-live="polite"></p></article>
+    </div></section>
+
+    <section class="content-section" id="budget"><div class="section-heading"><div><span class="section-kicker">02 / MAKE IT YOURS</span><h2>A plan for every rupee.</h2></div><small>Your budget, your priorities.</small></div><div class="two-col budget-grid">
+      <article class="panel calculator-panel"><div class="panel-heading"><h3>Family Budget Calculator</h3><span class="tag">Monthly amounts (₹)</span></div><p class="step-hint">01 / Add your monthly amounts. Start with the example or enter your own.</p><label class="field-label" for="incomeInput">Monthly take-home income</label><div class="money-input"><span>₹</span><input id="incomeInput" type="number" min="0" step="500" value="75000" inputmode="numeric" /></div><label class="field-label" for="expenseInput">Planned monthly expenses</label><div class="money-input"><span>₹</span><input id="expenseInput" type="number" min="0" step="500" value="57300" inputmode="numeric" /></div><div class="category-inputs"><p>Optional: adjust your largest categories</p><div class="category-row"><label for="housingInput">Housing / rent</label><div class="money-input"><span>₹</span><input id="housingInput" type="number" min="0" value="18000" inputmode="numeric" /></div></div><div class="category-row"><label for="foodInput">Groceries</label><div class="money-input"><span>₹</span><input id="foodInput" type="number" min="0" value="13500" inputmode="numeric" /></div></div><div class="category-row"><label for="schoolInput">School fees</label><div class="money-input"><span>₹</span><input id="schoolInput" type="number" min="0" value="8500" inputmode="numeric" /></div></div><div class="category-row"><label for="billsInput">Bills & utilities</label><div class="money-input"><span>₹</span><input id="billsInput" type="number" min="0" value="4800" inputmode="numeric" /></div></div></div><p class="inline-message" id="budgetMessage" aria-live="polite"></p></article>
+      <div class="advice-stack"><article class="panel advice-panel" id="assistant"><div class="panel-heading"><h3>Where you can spend less</h3><span class="tag warm">1 tip</span></div><div class="tip-card"><b id="tipTitle">Electricity & Other Bills</b><span>Use Less</span><p id="tipText">Bills use 6.4% of your income. Use less AC and check for a cheaper internet plan to lower your bills.</p></div></article><article class="panel coach-panel"><span class="coach-spark">✦</span><div><h3>A friendly nudge</h3><p id="coachText">Your plan is taking shape. Try to keep a little aside for the unexpected, too.</p></div><div class="tiny-character" aria-hidden="true"><i></i><b></b></div></article></div>
+    </div></section>
+
+    <section class="content-section" id="goals"><div class="section-heading"><div><span class="section-kicker">03 / LOOKING AHEAD</span><h2>Small steps. Bigger possibilities.</h2></div></div><div class="two-col goals-grid">
+      <article class="panel goals-panel"><div class="panel-heading"><h3>Savings goals</h3><div class="piggy" aria-hidden="true"><span></span><i></i><b></b></div></div><p> Laptop, exam fees, a course, education or a wedding: plan the amount and timeline. Goals are separate for each mode.</p><form id="goalForm"><div class="form-grid"><label>Goal name<input id="goalName" placeholder="Laptop / exam fees / education" required /></label><label>Target amount (₹)<input id="goalTarget" type="number" min="1" value="60000" required /></label><label>Already saved (₹)<input id="goalSaved" type="number" min="0" value="0" /></label><label>Months remaining<input id="goalMonths" type="number" min="1" value="8" required /></label></div><button class="button primary full" type="submit">Add savings goal</button></form><div id="goalsList" class="goals-list"><p class="empty-goals">No goals yet. Start with something you're saving for.</p></div></article>
+      <article class="panel emergency-panel"><h3>Your emergency fund</h3><p>Uses all current monthly expenses for a conservative safety net. Choose 3–6 months of cover.</p><div class="form-grid emergency-fields"><label>Emergency savings (₹)<input id="emergencySaved" type="number" min="0" value="0" /></label><label>Months of cover<select id="coverMonths"><option value="3">3 months</option><option value="6" selected>6 months</option><option value="9">9 months</option><option value="12">12 months</option></select></label></div><button id="updateSafety" class="button primary full" type="button">Update safety net</button><div class="safety-result"><small id="safetyFormula">6 months × ₹57,300 monthly expenses</small><strong id="safetyTarget">₹3,43,800</strong><span id="safetyProgress">₹0 saved · ₹3,43,800 still to build</span><small id="safetyRange">3–6 month range: ₹1,71,900–₹3,43,800</small></div><p class="disclaimer">Keep emergency money accessible. These planning estimates are educational, not personal financial advice.</p></article>
+    </div></section>
+  </main><footer class="footer"><a class="brand" href="#top"><span class="brand-icon">f</span> finspark</a><span>Made for clearer money moments · <span id="year"></span></span></footer>
   <script src="script.js"></script>
-</body>
-</html>
+</body></html>
