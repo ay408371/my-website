@@ -1,51 +1,1829 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#eef4fb" />
-  <meta name="description" content="A friendly AI money planner for students and families." />
-  <title>FinSpark — Your money, in perspective</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexus AI — Advanced Personal &amp; Family Financial Adviser</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F7F7F2',
+            forest: {
+              950: '#132C1F',
+              900: '#193929',
+              800: '#214A35',
+              700: '#2C5E44',
+              100: '#EBF3DC',
+              50: '#F4F8EC',
+            },
+            olive: {
+              600: '#5E7F3E',
+              500: '#729450',
+              300: '#CFE5A8',
+              200: '#DDF0BC',
+            },
+            ink: {
+              900: '#1C2A22',
+              600: '#536259',
+              400: '#7D8B82',
+            }
+          },
+          fontFamily: {
+            serif: ['Newsreader', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: #F7F7F2;
+      color: #1C2A22;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    .font-editorial { font-family: 'Newsreader', Georgia, serif; }
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-5px) rotate(2deg); }
+    }
+    @keyframes bobGentle {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+    .cartoon-float { animation: floatSlow 3.6s ease-in-out infinite; }
+    .cartoon-bob { animation: bobGentle 3.2s ease-in-out infinite; }
+    .paused-cartoons .cartoon-float,
+    .paused-cartoons .cartoon-bob { animation-play-state: paused !important; }
+    .grid-bg {
+      background-image:
+        linear-gradient(to right, rgba(25, 57, 41, 0.045) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(25, 57, 41, 0.045) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type="number"] { -moz-appearance: textfield; }
+    .auth-perspective { perspective: 1400px; }
+    .auth-card-3d {
+      transform-style: preserve-3d;
+      box-shadow:
+        0 32px 64px -16px rgba(19, 44, 31, 0.24),
+        0 14px 28px -10px rgba(19, 44, 31, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+    .float-3d-card {
+      transform: perspective(900px) rotateY(-8deg) rotateX(6deg);
+      box-shadow:
+        -12px 18px 32px rgba(9, 24, 16, 0.45),
+        inset 0 1px 1px rgba(255, 255, 255, 0.22);
+      transition: transform 0.35s ease;
+    }
+    .float-3d-card:hover {
+      transform: perspective(900px) rotateY(-2deg) rotateX(2deg) translateY(-4px);
+    }
+    .btn-3d {
+      box-shadow: 0 5px 0 #0F2318, 0 10px 20px -4px rgba(19, 44, 31, 0.35);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+    }
+    .btn-3d:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 0 #0F2318, 0 14px 24px -4px rgba(19, 44, 31, 0.4);
+    }
+    .btn-3d:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #0F2318, 0 4px 10px -2px rgba(19, 44, 31, 0.3);
+    }
+    .input-3d {
+      box-shadow: inset 0 2px 4px rgba(25, 57, 41, 0.06), 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+  </style>
 </head>
-<body>
-  <header class="topbar"><a class="brand" href="#top"><span class="brand-icon">f</span> finspark</a><nav><a href="#overview">Overview</a><a href="#budget">Your budget</a><a href="#goals">Goals</a></nav><a class="login-link" href="login.html">Log in <span>↗</span></a></header>
-  <main id="top" class="page-shell">
-    <section class="hero" id="overview">
-      <div class="hero-copy"><div class="eyebrow"><span class="sun-mark">☼</span><span>A LITTLE PLANNING. A LOT OF POSSIBILITY.</span></div><div class="pause-link">Your friendly money planner</div>
-        <h1>Your money.<br /><em>In perspective.</em></h1>
-        <p>A little less guesswork. A little more confidence. Bring your spending, savings and next big plan into focus.</p>
-        <div class="hero-actions"><a class="button primary" href="#budget">Fine-tune your budget <span>↗</span></a><span class="aside-note">One month. One<br />step forward.</span></div>
+<body class="antialiased selection:bg-olive-300 selection:text-forest-950">
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 z-[60] hidden items-center gap-2.5 rounded-xl bg-forest-900 px-4 py-3 text-sm font-medium text-white shadow-lg transition-all">
+    <i data-lucide="check-circle-2" class="h-4 w-4 text-olive-300"></i>
+    <span id="toast-message">Saved</span>
+  </div>
+
+  <!-- AUTHENTICATION / LOGIN VIEW (3D Depth) -->
+  <div id="auth-view" class="auth-perspective relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-[#F7F7F2] via-[#EFF3E4] to-[#E3ECD2] px-4 py-10">
+    <!-- Ambient 3D Depth Spheres -->
+    <div class="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full bg-olive-300/35 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-28 -right-24 h-96 w-96 rounded-full bg-forest-900/15 blur-3xl"></div>
+
+    <div class="auth-card-3d relative grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-3xl border border-white/80 bg-white/95 backdrop-blur-md lg:grid-cols-12">
+      <!-- Left 3D Editorial Panel -->
+      <div class="relative flex flex-col justify-between overflow-hidden bg-gradient-to-br from-[#1E4431] via-[#193929] to-[#11271C] p-8 text-white lg:col-span-5 lg:p-10">
+        <!-- 3D Inner Ring Glow -->
+        <div class="pointer-events-none absolute -right-14 -top-14 h-48 w-48 rounded-full border border-white/10 bg-white/5 blur-sm"></div>
+
+        <div>
+          <div class="flex items-center gap-3">
+            <div class="cartoon-float flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-b from-white/20 to-white/5 shadow-lg ring-1 ring-white/25">
+              <svg viewBox="0 0 64 64" class="h-9 w-9" aria-hidden="true">
+                <circle cx="32" cy="31" r="19" fill="#E3D496" stroke="#132C1F" stroke-width="2.4"/>
+                <text x="32" y="29" text-anchor="middle" font-size="13" font-weight="700" fill="#132C1F" font-family="Inter, sans-serif">₹</text>
+                <circle cx="25.5" cy="34" r="1.6" fill="#132C1F"/>
+                <circle cx="38.5" cy="34" r="1.6" fill="#132C1F"/>
+                <path d="M28 38 Q32 41.5 36 38" fill="none" stroke="#132C1F" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="text-xs font-semibold uppercase tracking-[0.18em] text-olive-300">Nexus AI</span>
+          </div>
+
+          <h1 class="mt-7 font-editorial text-4xl font-semibold leading-tight drop-shadow-sm">
+            Your money.<br />
+            <span class="italic font-medium text-olive-300">In perspective.</span>
+          </h1>
+          <p class="mt-3 text-xs leading-relaxed text-white/75">
+            Sign in to access your personal rupee workspace, live AI financial adviser, 50/30/20 analytics, and saved goals.
+          </p>
+
+          <!-- Floating 3D Glass Card -->
+          <div class="float-3d-card mt-6 rounded-2xl border border-white/20 bg-gradient-to-br from-white/15 to-white/5 p-4 backdrop-blur-md">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-olive-300">3D Smart Vault</span>
+              <span class="flex h-6 w-6 items-center justify-center rounded-full bg-olive-300/20 text-olive-300">
+                <i data-lucide="sparkles" class="h-3.5 w-3.5"></i>
+              </span>
+            </div>
+            <div class="mt-2.5 flex items-end justify-between">
+              <div>
+                <p class="text-[11px] text-white/65">Private Workspace</p>
+                <p class="mt-0.5 text-sm font-semibold text-white">Your Data Only</p>
+              </div>
+              <div class="flex items-end gap-1">
+                <span class="h-3 w-1.5 rounded-full bg-olive-300/40"></span>
+                <span class="h-5 w-1.5 rounded-full bg-olive-300/65"></span>
+                <span class="h-7 w-1.5 rounded-full bg-olive-300"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 space-y-2.5 border-t border-white/10 pt-5 text-xs text-white/80">
+          <div class="flex items-center gap-2.5">
+            <i data-lucide="shield-check" class="h-4 w-4 text-olive-300"></i>
+            <span>Isolated per-user data saved in your browser</span>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <i data-lucide="download" class="h-4 w-4 text-olive-300"></i>
+            <span>One-click JSON backup anytime</span>
+          </div>
+        </div>
       </div>
-      <div class="overview-card" id="overviewCard"><div class="overview-top"><div><span class="overline">AVAILABLE THIS MONTH</span><strong id="heroRemaining">₹17,700</strong><small>Income minus planned expenses</small></div><div class="spend-ring" id="spendRing"><div><b id="ringPercent">76%</b><small>of income spent</small></div></div></div><p class="left-to-go">You have <b id="heroLeft">₹17,700</b> left to put toward your next goal.</p><div class="overview-foot"><div><small>Monthly income</small><b id="heroIncome">₹75,000</b></div><div><small>Planned expenses</small><b id="heroExpenses">₹57,300</b></div><span class="budget-pill">Family budget</span></div><div class="mascot-float" aria-hidden="true"><div class="mascot-coin">₹</div><div class="mascot-body"><i class="eye eye-left"></i><i class="eye eye-right"></i><b></b></div><div class="mascot-feet"></div></div></div>
+
+      <!-- Right Auth Form Panel -->
+      <div class="flex flex-col justify-center bg-gradient-to-b from-white to-cream/40 p-8 lg:col-span-7 lg:p-10">
+        <div class="flex items-center justify-between border-b border-forest-900/10 pb-4">
+          <div class="inline-flex gap-1.5 rounded-full bg-cream p-1 shadow-inner" role="tablist">
+            <button id="tab-signin" type="button" class="rounded-full bg-forest-900 px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition">Sign In</button>
+            <button id="tab-signup" type="button" class="rounded-full px-4 py-1.5 text-xs font-semibold text-ink-600 transition hover:bg-white">Create Account</button>
+          </div>
+        </div>
+
+        <!-- Sign In Form -->
+        <form id="signin-form" class="mt-6 space-y-4">
+          <div>
+            <label for="signin-email" class="block text-xs font-semibold text-ink-900">Email</label>
+            <input id="signin-email" type="email" required
+              class="input-3d mt-1.5 w-full rounded-xl border border-forest-900/15 bg-cream/50 px-4 py-2.5 text-sm text-ink-900 transition focus:border-forest-700 focus:bg-white focus:outline-none" />
+          </div>
+          <div>
+            <label for="signin-password" class="block text-xs font-semibold text-ink-900">Password</label>
+            <input id="signin-password" type="password" required
+              class="input-3d mt-1.5 w-full rounded-xl border border-forest-900/15 bg-cream/50 px-4 py-2.5 text-sm text-ink-900 transition focus:border-forest-700 focus:bg-white focus:outline-none" />
+          </div>
+          <p id="signin-error" class="hidden text-xs font-medium text-red-600"></p>
+          <button type="submit" class="btn-3d mt-2 w-full rounded-xl bg-forest-900 py-3 text-sm font-semibold text-white hover:bg-forest-800">
+            Sign in
+          </button>
+        </form>
+
+        <!-- Sign Up Form -->
+        <form id="signup-form" class="mt-6 hidden space-y-4">
+          <div>
+            <label for="signup-name" class="block text-xs font-semibold text-ink-900">Full name</label>
+            <input id="signup-name" type="text" required
+              class="input-3d mt-1.5 w-full rounded-xl border border-forest-900/15 bg-cream/50 px-4 py-2.5 text-sm text-ink-900 transition focus:border-forest-700 focus:bg-white focus:outline-none" />
+          </div>
+          <div>
+            <label for="signup-email" class="block text-xs font-semibold text-ink-900">Email</label>
+            <input id="signup-email" type="email" required
+              class="input-3d mt-1.5 w-full rounded-xl border border-forest-900/15 bg-cream/50 px-4 py-2.5 text-sm text-ink-900 transition focus:border-forest-700 focus:bg-white focus:outline-none" />
+          </div>
+          <div>
+            <label for="signup-password" class="block text-xs font-semibold text-ink-900">Create password</label>
+            <input id="signup-password" type="password" minlength="4" required
+              class="input-3d mt-1.5 w-full rounded-xl border border-forest-900/15 bg-cream/50 px-4 py-2.5 text-sm text-ink-900 transition focus:border-forest-700 focus:bg-white focus:outline-none" />
+          </div>
+          <p id="signup-error" class="hidden text-xs font-medium text-red-600"></p>
+          <button type="submit" class="btn-3d mt-2 w-full rounded-xl bg-forest-900 py-3 text-sm font-semibold text-white hover:bg-forest-800">
+            Create account
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP VIEW -->
+  <div id="app-view" class="hidden mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
+
+    <!-- Top Brand / Cartoon + User Account Header -->
+    <header class="mb-6 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <div class="cartoon-float flex h-12 w-12 items-center justify-center rounded-full bg-forest-100/80 ring-1 ring-forest-900/10">
+          <svg viewBox="0 0 64 64" class="h-10 w-10" aria-hidden="true">
+            <path d="M25 49 L25 57 M39 49 L39 57" stroke="#214A35" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M13 33 Q7 29 9 23" fill="none" stroke="#214A35" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M51 33 Q57 29 55 23" fill="none" stroke="#214A35" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="32" cy="31" r="19" fill="#E3D496" stroke="#214A35" stroke-width="2.4"/>
+            <circle cx="32" cy="31" r="14.5" fill="none" stroke="#B7A35A" stroke-width="1.4" stroke-dasharray="3 2"/>
+            <text x="32" y="29" text-anchor="middle" font-size="13" font-weight="700" fill="#214A35" font-family="Inter, sans-serif">₹</text>
+            <circle cx="25.5" cy="34" r="1.6" fill="#214A35"/>
+            <circle cx="38.5" cy="34" r="1.6" fill="#214A35"/>
+            <path d="M28 38 Q32 41.5 36 38" fill="none" stroke="#214A35" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-600">
+            A little planning. A lot of possibility.
+          </p>
+          <button id="toggle-cartoons-btn" type="button" class="mt-0.5 text-xs font-medium text-ink-400 underline decoration-ink-400/40 underline-offset-4 hover:text-forest-900">
+            Pause cartoons
+          </button>
+        </div>
+      </div>
+
+      <!-- Mode Switcher, AI & Account Controls -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="inline-flex rounded-full border border-forest-900/10 bg-white p-1 shadow-sm" role="group" aria-label="Budget Mode">
+          <button type="button" data-mode="family" class="mode-btn rounded-full px-3 py-1.5 text-xs font-medium transition-colors bg-forest-900 text-white">Family budget</button>
+          <button type="button" data-mode="personal" class="mode-btn rounded-full px-3 py-1.5 text-xs font-medium transition-colors text-ink-600 hover:text-forest-900">Personal</button>
+          <button type="button" data-mode="student" class="mode-btn rounded-full px-3 py-1.5 text-xs font-medium transition-colors text-ink-600 hover:text-forest-900">Student</button>
+        </div>
+        <button id="open-ai-header-btn" type="button" class="inline-flex items-center gap-1.5 rounded-full bg-forest-100 px-3.5 py-2 text-xs font-semibold text-forest-900 ring-1 ring-forest-900/15 transition hover:bg-olive-200">
+          <i data-lucide="sparkles" class="h-3.5 w-3.5 text-olive-600"></i>
+          <span>Ask Nexus AI</span>
+        </button>
+
+        <!-- User Account Pill -->
+        <div class="flex items-center gap-2 rounded-full border border-forest-900/10 bg-white py-1 pl-1.5 pr-2.5 shadow-sm">
+          <span id="user-avatar-initials" class="flex h-7 w-7 items-center justify-center rounded-full bg-forest-900 text-[11px] font-semibold text-olive-300">AK</span>
+          <span id="user-display-name" class="text-xs font-medium text-ink-900">Demo User</span>
+          <button id="export-data-btn" type="button" title="Export your data (JSON)" class="rounded-full p-1 text-ink-400 hover:bg-cream hover:text-forest-900">
+            <i data-lucide="download" class="h-3.5 w-3.5"></i>
+          </button>
+          <button id="logout-btn" type="button" title="Sign out" class="rounded-full p-1 text-ink-400 hover:bg-red-50 hover:text-red-600">
+            <i data-lucide="log-out" class="h-3.5 w-3.5"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="mb-10 grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-6">
+        <div class="mb-3 inline-flex items-center gap-2 rounded-full border border-forest-900/10 bg-white px-3 py-1 text-[11px] font-medium text-forest-800 shadow-2xs">
+          <span class="h-2 w-2 rounded-full bg-olive-500"></span>
+          <span>Financial Health Score: <strong id="hero-health-score">84 / 100</strong></span>
+        </div>
+        <h1 class="font-editorial text-5xl font-semibold leading-[1.02] tracking-tight text-forest-900 sm:text-6xl">
+          Your money.<br />
+          <span class="italic font-medium text-olive-600">In perspective.</span>
+        </h1>
+        <p class="mt-5 max-w-md text-base leading-relaxed text-ink-600">
+          A little less guesswork. A little more confidence. Bring your spending, savings and next big plan into focus.
+        </p>
+        <div class="mt-7 flex flex-wrap items-center gap-4">
+          <a href="#budget-calculator" class="inline-flex items-center gap-2 rounded-xl bg-forest-900 px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-forest-800">
+            <span>Fine-tune your budget</span>
+            <i data-lucide="arrow-up-right" class="h-4 w-4 text-olive-300"></i>
+          </a>
+          <span class="text-xs leading-snug text-ink-400">
+            One month. One<br />step forward.
+          </span>
+        </div>
+      </div>
+
+      <!-- Hero Right: Dark Forest Green Card -->
+      <div class="lg:col-span-6">
+        <div class="relative overflow-hidden rounded-2xl bg-forest-900 p-6 text-white shadow-xl sm:p-8">
+          <div class="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full border border-white/5"></div>
+          <div class="pointer-events-none absolute -bottom-16 -left-10 h-44 w-44 rounded-full border border-white/5"></div>
+
+          <div class="relative flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
+            <div>
+              <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-olive-300/80">
+                Available this month
+              </p>
+              <div id="hero-available" class="mt-2 font-sans text-4xl font-semibold tracking-tight text-olive-300 sm:text-5xl">
+                ₹17,700
+              </div>
+              <p class="mt-1 text-xs text-white/65">Income minus planned expenses</p>
+              <p id="hero-goal-line" class="mt-4 text-xs font-medium text-white/90">
+                ₹17,700 left to put toward your next goal.
+              </p>
+            </div>
+
+            <div class="relative flex h-32 w-32 shrink-0 items-center justify-center self-center sm:self-auto">
+              <svg class="h-full w-full -rotate-90" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="10" />
+                <circle id="hero-ring-circle" cx="60" cy="60" r="50" fill="none" stroke="#CFE5A8" stroke-width="10" stroke-linecap="round"
+                  stroke-dasharray="314.16" stroke-dashoffset="75.4" class="transition-all duration-500" />
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span id="hero-spent-pct" class="text-2xl font-semibold text-white">76%</span>
+                <span class="text-[10px] text-white/65">of income spent</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-5">
+            <div class="flex flex-wrap items-center gap-6">
+              <div>
+                <p class="text-[11px] text-white/60">Monthly income</p>
+                <p id="hero-income" class="mt-0.5 text-sm font-semibold text-white">₹75,000</p>
+              </div>
+              <div>
+                <p class="text-[11px] text-white/60">Planned expenses</p>
+                <p id="hero-expenses" class="mt-0.5 text-sm font-semibold text-white">₹57,300</p>
+              </div>
+            </div>
+            <span id="hero-mode-badge" class="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/85">
+              Family budget
+            </span>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="month-section"><div class="section-title-row"><h2>Your month at a glance</h2><span class="live-note"><i></i> Updates as you type</span></div><div class="metric-grid">
-      <article class="metric"><div class="metric-title">Monthly Income <span class="metric-icon">↙</span></div><strong id="incomeMetric">₹75,000</strong><small>Salary and other family income</small></article>
-      <article class="metric"><div class="metric-title">Monthly Expenses <span class="metric-icon coral-icon">↗</span></div><strong id="expenseMetric">₹57,300</strong><small><span id="spentCaption">76.4%</span> of your income spent</small></article>
-      <article class="metric highlight"><div class="metric-title">Money Left <span class="metric-icon">▱</span></div><strong id="leftMetric">₹17,700</strong><small>Money left after expenses</small></article>
-      <article class="metric"><div class="metric-title">Savings Rate <span class="metric-icon">⌁</span></div><strong id="savingsRate">23.6%</strong><small>Aim to save 20%–30% of your income</small></article>
-    </div></section>
+    <!-- Your month at a glance -->
+    <section class="mb-10">
+      <div class="mb-4 flex items-center justify-between">
+        <h2 class="text-sm font-semibold text-ink-900">Your month at a glance</h2>
+        <span class="inline-flex items-center gap-1.5 text-xs text-ink-400">
+          <span class="h-1.5 w-1.5 rounded-full bg-olive-500"></span>
+          Auto-saved to your account
+        </span>
+      </div>
 
-    <section class="quick-actions" aria-label="Budget tools"><a href="#budget"><span>▣</span><b>Fine-tune your budget</b><small>Make every rupee count</small><i>↗</i></a><a href="#goals"><span>◎</span><b>Set a savings goal</b><small>Give your plans a purpose</small><i>↗</i></a><a href="#assistant"><span>✧</span><b>Ask Nexus AI</b><small>A little help with the numbers</small><i>↗</i></a><a href="#budget"><span>⇧</span><b>Import expenses</b><small>Less typing, more clarity</small><i>↗</i></a></section>
+      <!-- 4 KPI Cards -->
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-2xl border border-forest-900/10 bg-white p-5 shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-ink-600">Monthly Income</span>
+            <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-forest-50 text-forest-700">
+              <i data-lucide="arrow-down-left" class="h-3.5 w-3.5"></i>
+            </span>
+          </div>
+          <p id="kpi-income" class="mt-3 text-3xl font-semibold tracking-tight text-forest-900">₹75,000</p>
+          <p id="kpi-income-sub" class="mt-1.5 text-xs text-ink-400">Salary and other family income</p>
+        </div>
 
-    <section class="content-section"><div class="section-heading"><div><span class="section-kicker">01 / THE BIG PICTURE</span><h2>A clearer picture of spending.</h2></div></div><div class="two-col">
-      <article class="panel spending-panel"><div class="panel-heading"><div><h3>Where your budget goes</h3><p>Category breakdown of your current monthly budget.</p></div></div><div class="spending-content"><div class="donut" id="expenseDonut"><div><b id="donutTotal">₹57,300</b><small>monthly expenses</small></div></div><div class="legend" id="legend"></div></div></article>
-      <article class="panel history-panel"><div class="panel-heading"><div><h3>Month by month</h3><p>Save a snapshot of your budget. Your history stays on this device.</p></div></div><div class="history-plot" id="historyPlot"><div class="empty-chart"><span class="chart-emoji">▥</span><b>Your story starts this month.</b><small>Save your first snapshot below.<br />Watch your monthly picture take shape.</small></div></div><div class="snapshot-row"><label>Budget month<input id="snapshotMonth" type="month" /></label><button class="button primary" id="saveSnapshot" type="button">Save monthly snapshot</button></div><p class="inline-message" id="snapshotMessage" aria-live="polite"></p></article>
-    </div></section>
+        <div class="rounded-2xl border border-forest-900/10 bg-white p-5 shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-ink-600">Monthly Expenses</span>
+            <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50 text-amber-700">
+              <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
+            </span>
+          </div>
+          <p id="kpi-expenses" class="mt-3 text-3xl font-semibold tracking-tight text-forest-900">₹57,300</p>
+          <p id="kpi-expenses-sub" class="mt-1.5 text-xs text-ink-400">76.4% of income spent</p>
+        </div>
 
-    <section class="content-section" id="budget"><div class="section-heading"><div><span class="section-kicker">02 / MAKE IT YOURS</span><h2>A plan for every rupee.</h2></div><small>Your budget, your priorities.</small></div><div class="two-col budget-grid">
-      <article class="panel calculator-panel"><div class="panel-heading"><h3>Family Budget Calculator</h3><span class="tag">Monthly amounts (₹)</span></div><p class="step-hint">01 / Add your monthly amounts. Start with the example or enter your own.</p><label class="field-label" for="incomeInput">Monthly take-home income</label><div class="money-input"><span>₹</span><input id="incomeInput" type="number" min="0" step="500" value="75000" inputmode="numeric" /></div><label class="field-label" for="expenseInput">Planned monthly expenses</label><div class="money-input"><span>₹</span><input id="expenseInput" type="number" min="0" step="500" value="57300" inputmode="numeric" /></div><div class="category-inputs"><p>Optional: adjust your largest categories</p><div class="category-row"><label for="housingInput">Housing / rent</label><div class="money-input"><span>₹</span><input id="housingInput" type="number" min="0" value="18000" inputmode="numeric" /></div></div><div class="category-row"><label for="foodInput">Groceries</label><div class="money-input"><span>₹</span><input id="foodInput" type="number" min="0" value="13500" inputmode="numeric" /></div></div><div class="category-row"><label for="schoolInput">School fees</label><div class="money-input"><span>₹</span><input id="schoolInput" type="number" min="0" value="8500" inputmode="numeric" /></div></div><div class="category-row"><label for="billsInput">Bills & utilities</label><div class="money-input"><span>₹</span><input id="billsInput" type="number" min="0" value="4800" inputmode="numeric" /></div></div></div><p class="inline-message" id="budgetMessage" aria-live="polite"></p></article>
-      <div class="advice-stack"><article class="panel advice-panel" id="assistant"><div class="panel-heading"><h3>Where you can spend less</h3><span class="tag warm">1 tip</span></div><div class="tip-card"><b id="tipTitle">Electricity & Other Bills</b><span>Use Less</span><p id="tipText">Bills use 6.4% of your income. Use less AC and check for a cheaper internet plan to lower your bills.</p></div></article><article class="panel coach-panel"><span class="coach-spark">✦</span><div><h3>A friendly nudge</h3><p id="coachText">Your plan is taking shape. Try to keep a little aside for the unexpected, too.</p></div><div class="tiny-character" aria-hidden="true"><i></i><b></b></div></article></div>
-    </div></section>
+        <div id="kpi-left-card" class="rounded-2xl border border-olive-300/60 bg-forest-100 p-5 shadow-sm transition-colors">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-forest-900">Money Left</span>
+            <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-white/70 text-forest-800">
+              <i data-lucide="wallet" class="h-3.5 w-3.5"></i>
+            </span>
+          </div>
+          <p id="kpi-left" class="mt-3 text-3xl font-semibold tracking-tight text-forest-900">₹17,700</p>
+          <p id="kpi-left-sub" class="mt-1.5 text-xs text-forest-800/75">Money left after expenses</p>
+        </div>
 
-    <section class="content-section" id="goals"><div class="section-heading"><div><span class="section-kicker">03 / LOOKING AHEAD</span><h2>Small steps. Bigger possibilities.</h2></div></div><div class="two-col goals-grid">
-      <article class="panel goals-panel"><div class="panel-heading"><h3>Savings goals</h3><div class="piggy" aria-hidden="true"><span></span><i></i><b></b></div></div><p> Laptop, exam fees, a course, education or a wedding: plan the amount and timeline. Goals are separate for each mode.</p><form id="goalForm"><div class="form-grid"><label>Goal name<input id="goalName" placeholder="Laptop / exam fees / education" required /></label><label>Target amount (₹)<input id="goalTarget" type="number" min="1" value="60000" required /></label><label>Already saved (₹)<input id="goalSaved" type="number" min="0" value="0" /></label><label>Months remaining<input id="goalMonths" type="number" min="1" value="8" required /></label></div><button class="button primary full" type="submit">Add savings goal</button></form><div id="goalsList" class="goals-list"><p class="empty-goals">No goals yet. Start with something you're saving for.</p></div></article>
-      <article class="panel emergency-panel"><h3>Your emergency fund</h3><p>Uses all current monthly expenses for a conservative safety net. Choose 3–6 months of cover.</p><div class="form-grid emergency-fields"><label>Emergency savings (₹)<input id="emergencySaved" type="number" min="0" value="0" /></label><label>Months of cover<select id="coverMonths"><option value="3">3 months</option><option value="6" selected>6 months</option><option value="9">9 months</option><option value="12">12 months</option></select></label></div><button id="updateSafety" class="button primary full" type="button">Update safety net</button><div class="safety-result"><small id="safetyFormula">6 months × ₹57,300 monthly expenses</small><strong id="safetyTarget">₹3,43,800</strong><span id="safetyProgress">₹0 saved · ₹3,43,800 still to build</span><small id="safetyRange">3–6 month range: ₹1,71,900–₹3,43,800</small></div><p class="disclaimer">Keep emergency money accessible. These planning estimates are educational, not personal financial advice.</p></article>
-    </div></section>
-  </main><footer class="footer"><a class="brand" href="#top"><span class="brand-icon">f</span> finspark</a><span>Made for clearer money moments · <span id="year"></span></span></footer>
-  <script src="script.js"></script>
-</body></html>
+        <div class="rounded-2xl border border-forest-900/10 bg-white p-5 shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-ink-600">Savings Rate</span>
+            <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-forest-50 text-forest-700">
+              <i data-lucide="trending-up" class="h-3.5 w-3.5"></i>
+            </span>
+          </div>
+          <p id="kpi-savings-rate" class="mt-3 text-3xl font-semibold tracking-tight text-forest-900">23.6%</p>
+          <p class="mt-1.5 text-xs text-ink-400">Aim to save 20%–30% of your income</p>
+        </div>
+      </div>
+
+      <!-- 4 Quick Action Cards -->
+      <div class="mt-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+        <a href="#budget-calculator" class="group flex items-center justify-between rounded-xl border border-forest-900/10 bg-white px-4 py-3.5 shadow-sm transition hover:border-forest-900/25 hover:bg-forest-50/40">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-forest-50 text-forest-800">
+              <i data-lucide="sliders-horizontal" class="h-4 w-4"></i>
+            </span>
+            <div>
+              <p class="text-xs font-semibold text-ink-900">Fine-tune your budget</p>
+              <p class="text-[11px] text-ink-400">Make every rupee count</p>
+            </div>
+          </div>
+          <i data-lucide="arrow-up-right" class="h-4 w-4 text-ink-400 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest-900"></i>
+        </a>
+
+        <a href="#savings-goals" class="group flex items-center justify-between rounded-xl border border-forest-900/10 bg-white px-4 py-3.5 shadow-sm transition hover:border-forest-900/25 hover:bg-forest-50/40">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-forest-50 text-forest-800">
+              <i data-lucide="target" class="h-4 w-4"></i>
+            </span>
+            <div>
+              <p class="text-xs font-semibold text-ink-900">Set a savings goal</p>
+              <p class="text-[11px] text-ink-400">Give your plans a purpose</p>
+            </div>
+          </div>
+          <i data-lucide="arrow-up-right" class="h-4 w-4 text-ink-400 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest-900"></i>
+        </a>
+
+        <button id="open-ai-card-btn" type="button" class="group flex items-center justify-between rounded-xl border border-forest-900/10 bg-white px-4 py-3.5 text-left shadow-sm transition hover:border-forest-900/25 hover:bg-forest-50/40">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-forest-50 text-forest-800">
+              <i data-lucide="sparkles" class="h-4 w-4"></i>
+            </span>
+            <div>
+              <p class="text-xs font-semibold text-ink-900">Ask Nexus AI</p>
+              <p class="text-[11px] text-ink-400">A little help with the numbers</p>
+            </div>
+          </div>
+          <i data-lucide="arrow-up-right" class="h-4 w-4 text-ink-400 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest-900"></i>
+        </button>
+
+        <button id="open-import-btn" type="button" class="group flex items-center justify-between rounded-xl border border-forest-900/10 bg-white px-4 py-3.5 text-left shadow-sm transition hover:border-forest-900/25 hover:bg-forest-50/40">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-forest-50 text-forest-800">
+              <i data-lucide="upload" class="h-4 w-4"></i>
+            </span>
+            <div>
+              <p class="text-xs font-semibold text-ink-900">Import expenses</p>
+              <p class="text-[11px] text-ink-400">Less typing, more clarity</p>
+            </div>
+          </div>
+          <i data-lucide="arrow-up-right" class="h-4 w-4 text-ink-400 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest-900"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- 01 / THE BIG PICTURE -->
+    <section class="mb-12">
+      <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-400">01 / The big picture</p>
+      <h2 class="mt-1 font-editorial text-3xl font-semibold text-forest-900 sm:text-4xl">A clearer picture of spending.</h2>
+
+      <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <!-- Where your budget goes -->
+        <div class="rounded-2xl border border-forest-900/10 bg-white p-6 shadow-sm lg:col-span-6">
+          <h3 class="text-base font-semibold text-ink-900">Where your budget goes</h3>
+          <p class="mt-0.5 text-xs text-ink-400">Category breakdown of your current monthly budget.</p>
+
+          <div class="mt-6 flex flex-col items-center gap-6 sm:flex-row">
+            <div class="relative h-52 w-52 shrink-0">
+              <canvas id="budgetDonutChart"></canvas>
+              <div class="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span id="donut-center-total" class="text-lg font-semibold text-forest-900">₹57,300</span>
+                <span class="text-[11px] text-ink-400">monthly expenses</span>
+              </div>
+            </div>
+            <div id="category-breakdown-list" class="w-full space-y-2.5 text-xs"></div>
+          </div>
+
+          <!-- 50 / 30 / 20 Rule Gauge -->
+          <div class="mt-6 border-t border-forest-900/10 pt-4">
+            <div class="flex items-center justify-between text-xs font-semibold text-ink-900">
+              <span>50 / 30 / 20 Rule Check</span>
+              <span id="rule-badge" class="text-[11px] font-medium text-forest-700">Balanced</span>
+            </div>
+            <div class="mt-3 grid grid-cols-3 gap-3 text-[11px]">
+              <div>
+                <div class="flex justify-between text-ink-600"><span>Needs (50%)</span><span id="rule-needs-pct" class="font-semibold text-ink-900">63%</span></div>
+                <div class="mt-1 h-1.5 overflow-hidden rounded-full bg-forest-900/10"><div id="rule-needs-bar" class="h-full rounded-full bg-forest-900" style="width:63%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-ink-600"><span>Wants (30%)</span><span id="rule-wants-pct" class="font-semibold text-ink-900">13%</span></div>
+                <div class="mt-1 h-1.5 overflow-hidden rounded-full bg-forest-900/10"><div id="rule-wants-bar" class="h-full rounded-full bg-amber-600" style="width:13%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-ink-600"><span>Save (20%)</span><span id="rule-save-pct" class="font-semibold text-ink-900">24%</span></div>
+                <div class="mt-1 h-1.5 overflow-hidden rounded-full bg-forest-900/10"><div id="rule-save-bar" class="h-full rounded-full bg-olive-600" style="width:24%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Month by month -->
+        <div class="flex flex-col justify-between rounded-2xl border border-forest-900/10 bg-white p-6 shadow-sm lg:col-span-6">
+          <div>
+            <h3 class="text-base font-semibold text-ink-900">Month by month</h3>
+            <p class="mt-0.5 text-xs text-ink-400">Save one snapshot per month and mode. Update a month to replace its snapshot.</p>
+          </div>
+
+          <div id="snapshot-empty-state" class="grid-bg my-5 flex min-h-[210px] flex-col items-center justify-center rounded-xl border border-dashed border-forest-900/15 p-6 text-center">
+            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-forest-100 text-forest-700">
+              <i data-lucide="bar-chart-3" class="h-5 w-5"></i>
+            </div>
+            <p class="mt-3 text-sm font-semibold text-ink-900">Your story starts this month.</p>
+            <p class="mt-1 max-w-xs text-xs text-ink-400">
+              Save your first snapshot below.<br />Watch your monthly picture take shape.
+            </p>
+          </div>
+
+          <div id="snapshot-chart-wrap" class="my-5 hidden">
+            <div class="relative h-52 w-full">
+              <canvas id="snapshotBarChart"></canvas>
+            </div>
+            <div id="snapshot-pills" class="mt-3 flex flex-wrap gap-1.5"></div>
+          </div>
+
+          <div class="flex flex-wrap items-end justify-between gap-3 border-t border-forest-900/10 pt-4">
+            <div>
+              <label for="snapshot-month-select" class="block text-[11px] font-medium text-ink-400">Budget month</label>
+              <select id="snapshot-month-select" class="mt-1 rounded-xl border border-forest-900/15 bg-cream/50 px-3 py-2 text-xs font-medium text-ink-900 focus:border-forest-700 focus:outline-none">
+                <option value="November, 2026">November, 2026</option>
+                <option value="December, 2026">December, 2026</option>
+                <option value="January, 2027">January, 2027</option>
+                <option value="February, 2027">February, 2027</option>
+                <option value="October, 2026">October, 2026</option>
+                <option value="September, 2026">September, 2026</option>
+              </select>
+            </div>
+            <button id="save-snapshot-btn" type="button" class="rounded-xl bg-forest-900 px-4 py-2.5 text-xs font-medium text-white shadow-sm transition hover:bg-forest-800">
+              Save monthly snapshot
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 / MAKE IT YOURS -->
+    <section id="budget-calculator" class="mb-12 scroll-mt-6">
+      <div class="flex flex-wrap items-end justify-between gap-2">
+        <div>
+          <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-400">02 / Make it yours</p>
+          <h2 class="mt-1 font-editorial text-3xl font-semibold text-forest-900 sm:text-4xl">A plan for every rupee.</h2>
+        </div>
+        <span class="text-xs text-ink-400">Your budget, your priorities.</span>
+      </div>
+
+      <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <!-- Budget Calculator -->
+        <div class="rounded-2xl border border-forest-900/10 bg-white p-6 shadow-sm lg:col-span-6">
+          <div class="flex items-center justify-between gap-2">
+            <h3 id="calculator-title" class="text-base font-semibold text-ink-900">Family Budget Calculator</h3>
+            <span class="rounded-full bg-forest-100 px-2.5 py-1 text-[11px] font-medium text-forest-800">Monthly amounts (₹)</span>
+          </div>
+          <p class="mt-1 text-xs text-ink-400">01 / Add your monthly amounts to plan your budget.</p>
+
+          <div class="mt-5">
+            <label for="income-input" class="block text-xs font-medium text-ink-900">Monthly take-home income</label>
+            <div class="relative mt-1.5">
+              <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-ink-400">₹</span>
+              <input id="income-input" type="number" min="0" step="500" value="0"
+                class="w-full rounded-xl border border-forest-900/15 bg-cream/40 py-2.5 pl-8 pr-4 text-sm font-semibold text-ink-900 focus:border-forest-700 focus:bg-white focus:outline-none" />
+            </div>
+          </div>
+
+          <div class="mt-5 border-t border-forest-900/10 pt-4">
+            <div class="mb-3 flex items-center justify-between">
+              <span class="text-xs font-medium text-ink-600">02 / Monthly spending categories</span>
+              <button id="reset-example-btn" type="button" class="text-[11px] font-medium text-forest-700 underline underline-offset-4 hover:text-forest-900">
+                Clear amounts
+              </button>
+            </div>
+            <div id="expense-inputs-grid" class="grid grid-cols-1 gap-3 sm:grid-cols-2"></div>
+            <button id="calculate-budget-btn" type="button" class="mt-5 w-full rounded-xl bg-forest-900 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-forest-800">
+              Calculate my budget
+            </button>
+            <div id="budget-calc-result" class="mt-3 hidden rounded-xl border border-olive-300/60 bg-forest-100 p-4">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <p class="text-[11px] font-medium text-forest-800">Calculated Money Left</p>
+                  <p id="calc-result-left" class="mt-0.5 text-2xl font-semibold tracking-tight text-forest-900">₹0</p>
+                </div>
+                <div class="text-right text-xs text-forest-800">
+                  <p>Expenses: <strong id="calc-result-expenses" class="text-forest-900">₹0</strong></p>
+                  <p class="mt-0.5">Savings Rate: <strong id="calc-result-rate" class="text-forest-900">0.0%</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Where you can spend less + Nexus AI Live Adviser -->
+        <div class="flex flex-col gap-6 lg:col-span-6">
+          <div class="rounded-2xl border border-forest-900/10 bg-white p-6 shadow-sm">
+            <div class="flex items-center justify-between gap-2">
+              <h3 class="text-base font-semibold text-ink-900">Where you can spend less</h3>
+              <span id="tips-count-badge" class="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-semibold text-amber-800">1 Tips</span>
+            </div>
+            <div id="spend-less-tips-list" class="mt-4 space-y-3"></div>
+          </div>
+
+          <div class="flex flex-1 flex-col justify-between rounded-2xl border border-forest-900/10 bg-forest-900 p-6 text-white shadow-sm">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium text-olive-300">
+                  <i data-lucide="sparkles" class="h-3 w-3"></i>
+                  Nexus AI Financial Adviser
+                </span>
+                <span class="text-[11px] text-white/60">Live analysis</span>
+              </div>
+              <p id="ai-live-verdict" class="mt-3 text-sm leading-relaxed text-white/90"></p>
+            </div>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <button type="button" data-ai-prompt="Analyze my current budget" class="quick-ai-chip rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-white/20">
+                Analyze my budget
+              </button>
+              <button type="button" data-ai-prompt="How can I save ₹5,000 more?" class="quick-ai-chip rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-white/20">
+                Save ₹5,000 more
+              </button>
+              <button type="button" data-ai-prompt="Suggest a SIP & investment plan" class="quick-ai-chip rounded-lg bg-olive-300 px-3 py-1.5 text-xs font-semibold text-forest-950 transition hover:bg-olive-200">
+                Ask Nexus AI →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 / TRANSACTION LEDGER (ADVANCED) -->
+    <section class="mb-12">
+      <div class="flex flex-wrap items-end justify-between gap-2">
+        <div>
+          <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-400">03 / Daily ledger</p>
+          <h2 class="mt-1 font-editorial text-3xl font-semibold text-forest-900 sm:text-4xl">Track individual expenses.</h2>
+        </div>
+        <span class="text-xs text-ink-400">Saved per user &amp; mode</span>
+      </div>
+
+      <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <form id="tx-form" class="rounded-2xl border border-forest-900/10 bg-white p-6 shadow-sm lg:col-span-5 space-y-3.5">
+          <h3 class="text-base font-semibold text-ink-900">Log a transaction</h3>
+          <div>
+            <label for="tx-desc" class="block text-xs font-medium text-ink-900">Description</label>
+            <input id="tx-desc" type="text" required
+              class="mt-1 w-full rounded-xl border border-forest-900/15 bg-cream/40 px-3.5 py-2 text-xs text-ink-900 focus:border-forest-700 focus:bg-white focus:outline-none" />
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="tx-cat" class="block text-xs font-medium text-ink-900">Category</label>
+              <select id="tx-cat" class="mt-1 w-full rounded-xl border border-forest-900/15 bg-cream/40 px-3 py-2 text-xs text-ink-900 focus:border-forest-700 focus:bg-white focus:outline-none"></select>
+            </div>
+            <div>
+              <label for="tx-amount" class="block text-xs font-medium text-ink-900">Amount (₹)</label>
+              <input id="tx-amount" type="number" min="1" step="10" required
+                class="mt-1 w-full rounded-xl border border-forest-900/15 bg-cream/40 px-3 py-2 text-xs font-semibold text-ink-900 focus:border-forest-700 focus:bg-white focus:outline-none" />
+            </div>
+          </div>
+          <label class="flex items-center gap-2 text-xs text-ink-600">
+            <input id="tx-add-to-budget" type="checkbox" checked class="rounded accent-forest-900" />
+            <span>Also add amount to category budget</span>
+          </label>
+          <button type="submit" class="w-full rounded-xl bg-forest-900 py-2.5 text-xs font-semibold text-white transition hover:bg-forest-800">
+            Add transaction
+          </button>
+        </form>
+
+        <div class="rounded-2xl border border-forest-900/10 bg-white p-6 shadow-sm lg:col-span-7">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-base font-semibold text-ink-900">Recent transactions</h3>
+            <input id="tx-search" type="text" class="rounded-lg border border-forest-900/15 bg-cream/40 px-3 py-1.5 text-xs focus:border-forest-700 focus:outline-none" />
+          </div>
+          <div id="tx-list" class="mt-4 max-h-60 space-y-2 overflow-y-auto pr-1 text-xs"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 / LOOKING AHEAD -->
+    <section id="savings-goals" class="mb-12 scroll-mt-6">
+      <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-400">04 / Looking ahead</p>
+      <h2 class="mt-1 font-editorial text-3xl font-semibold text-forest-900 sm:text-4xl">Small steps. Bigger possibilities.</h2>
+
+      <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <!-- Savings Goals -->
+        <div class="rounded-2xl border border-forest-900/10 bg-white p-6 shadow-sm lg:col-span-6">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h3 class="text-base font-semibold text-ink-900">Savings goals</h3>
+              <p class="mt-1 text-xs leading-relaxed text-ink-400">
+                Laptop, exam fees, a course, education or a wedding: plan the amount and timeline. Goals are separate for each mode.
+              </p>
+            </div>
+            <div class="cartoon-bob shrink-0">
+              <svg viewBox="0 0 64 54" class="h-12 w-14" aria-hidden="true">
+                <path d="M27 12 Q32 10 37 12" fill="none" stroke="#214A35" stroke-width="2.4" stroke-linecap="round"/>
+                <path d="M12 27 Q6 23 9 19" fill="none" stroke="#214A35" stroke-width="2" stroke-linecap="round"/>
+                <ellipse cx="32" cy="29" rx="19" ry="15" fill="#C4DAB0" stroke="#214A35" stroke-width="2.2"/>
+                <path d="M40 16 L45 10 L47 18" fill="#C4DAB0" stroke="#214A35" stroke-width="2" stroke-linejoin="round"/>
+                <ellipse cx="51" cy="30" rx="4" ry="5.5" fill="#B2CE9A" stroke="#214A35" stroke-width="2"/>
+                <circle cx="51" cy="29" r="0.9" fill="#214A35"/>
+                <circle cx="51" cy="31.5" r="0.9" fill="#214A35"/>
+                <circle cx="43" cy="24" r="1.6" fill="#214A35"/>
+                <circle cx="41" cy="28" r="2.2" fill="#E9B8B0" opacity="0.8"/>
+                <rect x="21" y="42" width="4" height="6" rx="1.5" fill="#C4DAB0" stroke="#214A35" stroke-width="2"/>
+                <rect x="37" y="42" width="4" height="6" rx="1.5" fill="#C4DAB0" stroke="#214A35" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+
+          <form id="goal-form" class="mt-5 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+            <div>
+              <label for="goal-name" class="block text-xs font-medium text-ink-900">Goal name</label>
+              <input id="goal-name" type="text" required
+                class="mt-1.5 w-full rounded-xl border border-forest-900/15 bg-cream/40 px-3.5 py-2.5 text-xs text-ink-900 placeholder:text-ink-400 focus:border-forest-700 focus:bg-white focus:outline-none" />
+            </div>
+            <div>
+              <label for="goal-target" class="block text-xs font-medium text-ink-900">Target amount (₹)</label>
+              <input id="goal-target" type="number" min="100" step="500" required
+                class="mt-1.5 w-full rounded-xl border border-forest-900/15 bg-cream/40 px-3.5 py-2.5 text-xs font-medium text-ink-900 focus:border-forest-700 focus:bg-white focus:outline-none" />
+            </div>
+            <div>
+              <label for="goal-saved" class="block text-xs font-medium text-ink-900">Already saved (₹)</label>
+              <input id="goal-saved" type="number" min="0" step="500" value="0"
+                class="mt-1.5 w-full rounded-xl border border-forest-900/15 bg-cream/40 px-3.5 py-2.5 text-xs font-medium text-ink-900 focus:border-forest-700 focus:bg-white focus:outline-none" />
+            </div>
+            <div>
+              <label for="goal-months" class="block text-xs font-medium text-ink-900">Months remaining</label>
+              <input id="goal-months" type="number" min="1" max="120" required
+                class="mt-1.5 w-full rounded-xl border border-forest-900/15 bg-cream/40 px-3.5 py-2.5 text-xs font-medium text-ink-900 focus:border-forest-700 focus:bg-white focus:outline-none" />
+            </div>
+            <div class="sm:col-span-2">
+              <button type="submit" class="w-full rounded-xl bg-forest-900 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-forest-800">
+                Add savings goal
+              </button>
+            </div>
+          </form>
+
+          <div id="goals-list" class="mt-4 space-y-3"></div>
+        </div>
+
+        <!-- Your emergency fund -->
+        <div class="flex flex-col justify-between rounded-2xl border border-forest-900/10 bg-white p-6 shadow-sm lg:col-span-6">
+          <div>
+            <h3 class="text-base font-semibold text-ink-900">Your emergency fund</h3>
+            <p class="mt-1 text-xs text-ink-400">Uses all current monthly expenses for a conservative safety net. Choose 3–6 months of cover.</p>
+
+            <div class="mt-5 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+              <div>
+                <label for="emergency-saved-input" class="block text-xs font-medium text-ink-900">Emergency savings (₹)</label>
+                <input id="emergency-saved-input" type="number" min="0" step="1000" value="0"
+                  class="mt-1.5 w-full rounded-xl border border-forest-900/15 bg-cream/40 px-3.5 py-2.5 text-xs font-medium text-ink-900 focus:border-forest-700 focus:bg-white focus:outline-none" />
+              </div>
+              <div>
+                <label for="emergency-months-select" class="block text-xs font-medium text-ink-900">Months of cover</label>
+                <select id="emergency-months-select" class="mt-1.5 w-full rounded-xl border border-forest-900/15 bg-cream/40 px-3.5 py-2.5 text-xs font-medium text-ink-900 focus:border-forest-700 focus:bg-white focus:outline-none">
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6" selected>6</option>
+                </select>
+              </div>
+            </div>
+
+            <button id="update-safety-net-btn" type="button" class="mt-4 w-full rounded-xl bg-forest-900 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-forest-800">
+              Update safety net
+            </button>
+
+            <div class="mt-4 rounded-xl border border-olive-300/50 bg-forest-100 p-5">
+              <p id="emergency-formula-text" class="text-xs text-forest-800">6 months × ₹57,300 monthly expenses</p>
+              <p id="emergency-target-text" class="mt-1.5 text-2xl font-semibold tracking-tight text-forest-900">₹3,43,800</p>
+              <p id="emergency-gap-text" class="mt-1.5 text-xs text-forest-800/80">₹0 saved · ₹3,43,800 still to build</p>
+              <p id="emergency-range-text" class="mt-0.5 text-xs text-forest-800/80">3–6 month range: ₹1,71,900–₹3,43,800</p>
+            </div>
+          </div>
+
+          <p class="mt-4 text-[11px] text-ink-400">
+            Keep emergency money accessible. Investment estimates below are separate from your safety net.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 / GROW YOUR SURPLUS (SIP & Wealth Chart) -->
+    <section class="mb-8">
+      <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-400">05 / Long-term growth</p>
+      <h2 class="mt-1 font-editorial text-3xl font-semibold text-forest-900 sm:text-4xl">Put your surplus to work.</h2>
+
+      <div class="mt-6 rounded-2xl border border-forest-900/10 bg-white p-6 shadow-sm">
+        <div class="grid grid-cols-1 items-center gap-6 lg:grid-cols-12">
+          <div class="space-y-4 lg:col-span-5">
+            <div>
+              <div class="flex items-center justify-between text-xs font-medium text-ink-900">
+                <label for="sip-amount-range">Monthly SIP investment</label>
+                <span id="sip-amount-label" class="font-semibold text-forest-900">₹10,000 / mo</span>
+              </div>
+              <input id="sip-amount-range" type="range" min="1000" max="100000" step="500" value="10000" class="mt-2 w-full accent-forest-900" />
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between text-xs font-medium text-ink-900">
+                <label for="sip-years-range">Time horizon</label>
+                <span id="sip-years-label" class="font-semibold text-forest-900">10 years</span>
+              </div>
+              <input id="sip-years-range" type="range" min="1" max="30" step="1" value="10" class="mt-2 w-full accent-forest-900" />
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between text-xs font-medium text-ink-900">
+                <label for="sip-rate-range">Expected annual return</label>
+                <span id="sip-rate-label" class="font-semibold text-forest-900">12% p.a.</span>
+              </div>
+              <input id="sip-rate-range" type="range" min="5" max="18" step="0.5" value="12" class="mt-2 w-full accent-forest-900" />
+            </div>
+
+            <div class="grid grid-cols-3 gap-2.5 pt-2">
+              <div class="rounded-xl border border-forest-900/10 bg-cream/60 p-3">
+                <p class="text-[10px] font-medium text-ink-600">Invested</p>
+                <p id="sip-invested" class="mt-1 text-sm font-semibold text-forest-900">₹12,00,000</p>
+              </div>
+              <div class="rounded-xl border border-forest-900/10 bg-cream/60 p-3">
+                <p class="text-[10px] font-medium text-ink-600">Returns</p>
+                <p id="sip-returns" class="mt-1 text-sm font-semibold text-olive-600">₹11,23,391</p>
+              </div>
+              <div class="rounded-xl border border-olive-300/60 bg-forest-100 p-3">
+                <p class="text-[10px] font-medium text-forest-900">Total Value</p>
+                <p id="sip-total" class="mt-1 text-sm font-semibold text-forest-900">₹23,23,391</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="relative h-64 w-full">
+              <canvas id="sipGrowthChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="border-t border-forest-900/10 pt-6 text-center text-xs text-ink-400">
+      Nexus AI Financial Adviser · Per-user workspace &amp; rupee planning.
+    </footer>
+  </div>
+
+  <!-- Nexus AI Modal -->
+  <div id="ai-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-forest-950/50 p-4 backdrop-blur-xs">
+    <div class="flex max-h-[85vh] w-full max-w-xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
+      <div class="flex items-center justify-between border-b border-forest-900/10 bg-forest-900 px-5 py-4 text-white">
+        <div class="flex items-center gap-2.5">
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-olive-300">
+            <i data-lucide="sparkles" class="h-4 w-4"></i>
+          </span>
+          <div>
+            <h3 class="text-sm font-semibold">Ask Nexus AI</h3>
+            <p class="text-[11px] text-white/70">Personalized insights from your live budget &amp; goals</p>
+          </div>
+        </div>
+        <button id="close-ai-modal" type="button" class="rounded-lg p-1.5 text-white/70 hover:bg-white/10 hover:text-white" aria-label="Close AI Adviser">
+          <i data-lucide="x" class="h-4 w-4"></i>
+        </button>
+      </div>
+
+      <div id="ai-chat-messages" class="flex-1 space-y-3 overflow-y-auto bg-cream/50 p-5 text-xs leading-relaxed"></div>
+
+      <div class="border-t border-forest-900/10 bg-white p-4">
+        <div class="mb-2.5 flex flex-wrap gap-1.5">
+          <button type="button" data-ai-prompt="Analyze my current budget" class="modal-ai-chip rounded-full border border-forest-900/15 bg-cream px-2.5 py-1 text-[11px] font-medium text-ink-900 hover:bg-forest-100">Analyze budget</button>
+          <button type="button" data-ai-prompt="How can I save ₹5,000 more?" class="modal-ai-chip rounded-full border border-forest-900/15 bg-cream px-2.5 py-1 text-[11px] font-medium text-ink-900 hover:bg-forest-100">Save ₹5,000 more</button>
+          <button type="button" data-ai-prompt="Check my emergency fund & goals" class="modal-ai-chip rounded-full border border-forest-900/15 bg-cream px-2.5 py-1 text-[11px] font-medium text-ink-900 hover:bg-forest-100">Emergency &amp; goals</button>
+          <button type="button" data-ai-prompt="Suggest a SIP & investment plan" class="modal-ai-chip rounded-full border border-forest-900/15 bg-cream px-2.5 py-1 text-[11px] font-medium text-ink-900 hover:bg-forest-100">SIP plan</button>
+        </div>
+        <form id="ai-chat-form" class="flex items-center gap-2">
+          <input id="ai-chat-input" type="text" required
+            class="flex-1 rounded-xl border border-forest-900/15 bg-cream/40 px-3.5 py-2.5 text-xs text-ink-900 focus:border-forest-700 focus:bg-white focus:outline-none" />
+          <button type="submit" class="rounded-xl bg-forest-900 px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-forest-800">
+            Send
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Expenses Modal -->
+  <div id="import-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-forest-950/50 p-4 backdrop-blur-xs">
+    <div class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
+      <div class="flex items-center justify-between border-b border-forest-900/10 px-5 py-4">
+        <div>
+          <h3 class="text-sm font-semibold text-ink-900">Import expenses</h3>
+          <p class="text-[11px] text-ink-400">Paste CSV lines (Category, Amount) to update your budget</p>
+        </div>
+        <button id="close-import-modal" type="button" class="rounded-lg p-1.5 text-ink-400 hover:bg-cream hover:text-ink-900" aria-label="Close Import Modal">
+          <i data-lucide="x" class="h-4 w-4"></i>
+        </button>
+      </div>
+      <div class="p-5">
+        <textarea id="import-textarea" rows="6"
+          class="w-full rounded-xl border border-forest-900/15 bg-cream/40 p-3 font-mono text-xs text-ink-900 focus:border-forest-700 focus:bg-white focus:outline-none"></textarea>
+        <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+          <span class="text-[11px] text-ink-400">Format: Category, Amount</span>
+          <div class="flex gap-2">
+            <button id="cancel-import-btn" type="button" class="rounded-xl border border-forest-900/15 px-3.5 py-2 text-xs font-medium text-ink-600 hover:bg-cream">Cancel</button>
+            <button id="apply-import-btn" type="button" class="rounded-xl bg-forest-900 px-4 py-2 text-xs font-semibold text-white hover:bg-forest-800">Apply to budget</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const CATEGORIES = [
+        { key: 'housing', label: 'Housing / rent', color: '#193929', type: 'need' },
+        { key: 'groceries', label: 'Groceries', color: '#5E7F3E', type: 'need' },
+        { key: 'school', label: 'School fees', color: '#A3B882', type: 'need' },
+        { key: 'utilities', label: 'Electricity & water', color: '#C27A3E', type: 'need' },
+        { key: 'medical', label: 'Medical', color: '#6E9A84', type: 'need' },
+        { key: 'loans', label: 'Loan payments', color: '#9D7B56', type: 'need' },
+        { key: 'lifestyle', label: 'Lifestyle', color: '#6F634F', type: 'want' },
+        { key: 'festivals', label: 'Festivals', color: '#B4C6A6', type: 'want' },
+      ];
+
+      const MODE_DEFAULTS = {
+        family: {
+          title: 'Family Budget Calculator',
+          badge: 'Family budget',
+          incomeSub: 'Salary and other family income',
+          income: 0,
+          expenses: { housing: 0, groceries: 0, school: 0, utilities: 0, medical: 0, loans: 0, lifestyle: 0, festivals: 0 },
+          emergencySaved: 0,
+          emergencyMonths: 6,
+          goals: [],
+          snapshots: {},
+          transactions: []
+        },
+        personal: {
+          title: 'Personal Budget Calculator',
+          badge: 'Personal',
+          incomeSub: 'Monthly salary & freelance income',
+          income: 0,
+          expenses: { housing: 0, groceries: 0, school: 0, utilities: 0, medical: 0, loans: 0, lifestyle: 0, festivals: 0 },
+          emergencySaved: 0,
+          emergencyMonths: 6,
+          goals: [],
+          snapshots: {},
+          transactions: []
+        },
+        student: {
+          title: 'Student Budget Calculator',
+          badge: 'Student',
+          incomeSub: 'Allowance, stipend & part-time',
+          income: 0,
+          expenses: { housing: 0, groceries: 0, school: 0, utilities: 0, medical: 0, loans: 0, lifestyle: 0, festivals: 0 },
+          emergencySaved: 0,
+          emergencyMonths: 3,
+          goals: [],
+          snapshots: {},
+          transactions: []
+        }
+      };
+
+      const USERS_KEY = 'nexus_ai_users_v2';
+      const SESSION_KEY = 'nexus_ai_session_v2';
+
+      function clone(obj) { return JSON.parse(JSON.stringify(obj)); }
+
+      function createUserState(startingIncome) {
+        const fam = clone(MODE_DEFAULTS.family);
+        if (typeof startingIncome === 'number' && startingIncome > 0) {
+          fam.income = startingIncome;
+        }
+        return {
+          activeMode: 'family',
+          cartoonsPaused: false,
+          modes: {
+            family: fam,
+            personal: clone(MODE_DEFAULTS.personal),
+            student: clone(MODE_DEFAULTS.student),
+          }
+        };
+      }
+
+      function getUsers() {
+        try {
+          const raw = localStorage.getItem(USERS_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function saveUsers(list) {
+        try { localStorage.setItem(USERS_KEY, JSON.stringify(list)); } catch (e) {}
+      }
+
+      function loadUserData(email) {
+        try {
+          const raw = localStorage.getItem('nexus_ai_data_' + email);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && parsed.modes && parsed.modes.family) return parsed;
+          }
+        } catch (e) {}
+        return createUserState();
+      }
+
+      function saveUserData(email, data) {
+        try { localStorage.setItem('nexus_ai_data_' + email, JSON.stringify(data)); } catch (e) {}
+      }
+
+      let currentUser = null;
+      let state = createUserState();
+      let donutChart = null;
+      let snapshotChart = null;
+      let sipChart = null;
+
+      function persist() {
+        if (currentUser) saveUserData(currentUser.email, state);
+      }
+
+      function formatINR(num) {
+        const n = Math.round(Number(num) || 0);
+        return (n < 0 ? '-' : '') + '₹' + Math.abs(n).toLocaleString('en-IN');
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toast-message').textContent = msg;
+        toast.classList.remove('hidden');
+        toast.classList.add('flex');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => {
+          toast.classList.add('hidden');
+          toast.classList.remove('flex');
+        }, 2600);
+      }
+
+      function currentMode() { return state.modes[state.activeMode]; }
+
+      function computeTotals(m) {
+        const income = Math.max(0, Number(m.income) || 0);
+        const totalExpenses = CATEGORIES.reduce((sum, c) => sum + Math.max(0, Number(m.expenses[c.key]) || 0), 0);
+        const left = income - totalExpenses;
+        const spentPct = income > 0 ? (totalExpenses / income) * 100 : (totalExpenses > 0 ? 100 : 0);
+        const savingsRate = income > 0 ? (left / income) * 100 : 0;
+        const needs = CATEGORIES.filter(c => c.type === 'need').reduce((s, c) => s + (Number(m.expenses[c.key]) || 0), 0);
+        const wants = CATEGORIES.filter(c => c.type === 'want').reduce((s, c) => s + (Number(m.expenses[c.key]) || 0), 0);
+        return { income, totalExpenses, left, spentPct, savingsRate, needs, wants };
+      }
+
+      function computeHealthScore(m, t) {
+        let score = 40;
+        if (t.savingsRate >= 25) score += 30;
+        else if (t.savingsRate >= 15) score += 20;
+        else if (t.savingsRate > 0) score += 10;
+        const emTarget = Math.max(1, t.totalExpenses * (Number(m.emergencyMonths) || 6));
+        const emRatio = Math.min(1, (Number(m.emergencySaved) || 0) / emTarget);
+        score += Math.round(emRatio * 20);
+        const loanRatio = t.income > 0 ? (m.expenses.loans || 0) / t.income : 0;
+        if (loanRatio <= 0.15) score += 10;
+        else if (loanRatio <= 0.3) score += 5;
+        return Math.min(100, Math.max(0, score));
+      }
+
+      function enterApp(user) {
+        currentUser = user;
+        try { localStorage.setItem(SESSION_KEY, JSON.stringify(user)); } catch (e) {}
+        state = loadUserData(user.email);
+
+        const initials = user.name.split(/\s+/).map(p => p[0]).join('').toUpperCase().slice(0, 2) || 'U';
+        document.getElementById('user-avatar-initials').textContent = initials;
+        document.getElementById('user-display-name').textContent = user.name;
+
+        document.getElementById('ai-chat-messages').innerHTML = '';
+        document.getElementById('auth-view').classList.add('hidden');
+        document.getElementById('app-view').classList.remove('hidden');
+
+        if (!donutChart) initDonutChart();
+        updateUI(true);
+        updateSIP();
+      }
+
+      function logout() {
+        currentUser = null;
+        state = createUserState();
+        try { localStorage.removeItem(SESSION_KEY); } catch (e) {}
+        document.getElementById('ai-chat-messages').innerHTML = '';
+        document.getElementById('signin-form').reset();
+        document.getElementById('signup-form').reset();
+        document.getElementById('app-view').classList.add('hidden');
+        document.getElementById('auth-view').classList.remove('hidden');
+        showToast('Signed out');
+      }
+
+      function initDonutChart() {
+        const ctx = document.getElementById('budgetDonutChart').getContext('2d');
+        donutChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: CATEGORIES.map(c => c.label),
+            datasets: [{
+              data: CATEGORIES.map(c => currentMode().expenses[c.key] || 0),
+              backgroundColor: CATEGORIES.map(c => c.color),
+              borderWidth: 2,
+              borderColor: '#ffffff',
+              hoverOffset: 4,
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: {
+              legend: { display: false },
+              tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${formatINR(ctx.raw)}` } }
+            }
+          }
+        });
+      }
+
+      function renderExpenseInputs() {
+        const container = document.getElementById('expense-inputs-grid');
+        const m = currentMode();
+        container.innerHTML = CATEGORIES.map(c => `
+          <div>
+            <label for="exp-${c.key}" class="block text-xs font-medium text-ink-900">${c.label}</label>
+            <div class="relative mt-1">
+              <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs font-medium text-ink-400">₹</span>
+              <input id="exp-${c.key}" data-exp-key="${c.key}" type="number" min="0" step="100" value="${m.expenses[c.key] || 0}"
+                class="expense-input w-full rounded-xl border border-forest-900/15 bg-cream/40 py-2 pl-7 pr-3 text-xs font-semibold text-ink-900 focus:border-forest-700 focus:bg-white focus:outline-none" />
+            </div>
+          </div>
+        `).join('');
+
+        container.querySelectorAll('.expense-input').forEach(inp => {
+          inp.addEventListener('input', (e) => {
+            const key = e.target.getAttribute('data-exp-key');
+            currentMode().expenses[key] = Math.max(0, Number(e.target.value) || 0);
+            persist();
+            updateUI(false);
+          });
+        });
+      }
+
+      function renderTransactions(m) {
+        const listEl = document.getElementById('tx-list');
+        const filter = (document.getElementById('tx-search').value || '').toLowerCase();
+        const txs = (m.transactions || []).filter(t =>
+          t.desc.toLowerCase().includes(filter) || t.catLabel.toLowerCase().includes(filter)
+        );
+        if (txs.length === 0) {
+          listEl.innerHTML = `<p class="py-6 text-center text-xs text-ink-400">No transactions logged yet for ${m.badge}.</p>`;
+          return;
+        }
+        listEl.innerHTML = txs.map(t => `
+          <div class="flex items-center justify-between rounded-xl border border-forest-900/10 bg-cream/50 px-3.5 py-2.5">
+            <div>
+              <p class="font-semibold text-ink-900">${t.desc}</p>
+              <p class="text-[11px] text-ink-400">${t.catLabel} · ${t.date}</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-semibold text-forest-900">${formatINR(t.amount)}</span>
+              <button type="button" data-del-tx="${t.id}" class="text-sm text-ink-400 hover:text-red-600" aria-label="Delete transaction">&times;</button>
+            </div>
+          </div>
+        `).join('');
+
+        listEl.querySelectorAll('[data-del-tx]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-del-tx');
+            currentMode().transactions = currentMode().transactions.filter(x => String(x.id) !== id);
+            persist();
+            renderTransactions(currentMode());
+            showToast('Transaction deleted');
+          });
+        });
+      }
+
+      function renderTips(m, totals) {
+        const tips = [];
+        const inc = totals.income;
+        if (inc > 0) {
+          const utilPct = ((m.expenses.utilities || 0) / inc) * 100;
+          if (utilPct >= 5) {
+            tips.push({ title: 'Electricity & Other Bills', tag: 'Use Less', body: `Bills use ${utilPct.toFixed(1)}% of your income. Use less AC and check for a cheaper internet plan to lower your bills.` });
+          }
+          const lifePct = ((m.expenses.lifestyle || 0) / inc) * 100;
+          if (lifePct >= 8) {
+            tips.push({ title: 'Lifestyle & Dining', tag: 'Trim 15%', body: `Lifestyle is ${lifePct.toFixed(1)}% of income (${formatINR(m.expenses.lifestyle)}). Trimming 15% frees up ${formatINR(m.expenses.lifestyle * 0.15)}/month.` });
+          }
+          const grocPct = ((m.expenses.groceries || 0) / inc) * 100;
+          if (grocPct >= 20) {
+            tips.push({ title: 'Groceries Planning', tag: 'Batch Buy', body: `Groceries take ${grocPct.toFixed(1)}% of income. Weekly meal prep and bulk staples can save ~₹1,500–₹2,500/month.` });
+          }
+        }
+        if (totals.left < 0) {
+          tips.unshift({ title: 'Monthly Deficit Alert', tag: 'Urgent', body: `Expenses exceed income by ${formatINR(Math.abs(totals.left))}. Pause non-essential lifestyle or festival spends first.` });
+        }
+        if (tips.length === 0) {
+          tips.push({ title: 'Balanced Spending', tag: 'On Track', body: 'Your category ratios look well-balanced! Direct any leftover cash toward your emergency fund or monthly SIP.' });
+        }
+
+        document.getElementById('tips-count-badge').textContent = `${tips.length} Tips`;
+        document.getElementById('spend-less-tips-list').innerHTML = tips.map(t => `
+          <div class="rounded-xl border border-forest-900/10 bg-cream/60 p-4">
+            <div class="flex items-center justify-between gap-2">
+              <h4 class="text-xs font-semibold text-ink-900">${t.title}</h4>
+              <span class="text-[11px] font-semibold text-amber-800">${t.tag}</span>
+            </div>
+            <p class="mt-1.5 text-xs leading-relaxed text-ink-600">${t.body}</p>
+          </div>
+        `).join('');
+      }
+
+      function renderSnapshots(m) {
+        const keys = Object.keys(m.snapshots || {});
+        const emptyEl = document.getElementById('snapshot-empty-state');
+        const wrapEl = document.getElementById('snapshot-chart-wrap');
+        if (keys.length === 0) {
+          emptyEl.classList.remove('hidden');
+          wrapEl.classList.add('hidden');
+          return;
+        }
+        emptyEl.classList.add('hidden');
+        wrapEl.classList.remove('hidden');
+
+        if (snapshotChart) snapshotChart.destroy();
+        const ctx = document.getElementById('snapshotBarChart').getContext('2d');
+        snapshotChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: keys,
+            datasets: [
+              { label: 'Income', data: keys.map(k => m.snapshots[k].income), backgroundColor: '#193929', borderRadius: 6 },
+              { label: 'Expenses', data: keys.map(k => m.snapshots[k].expenses), backgroundColor: '#A3B882', borderRadius: 6 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 } } } },
+            scales: {
+              y: { beginAtZero: true, ticks: { font: { size: 10 }, callback: (v) => '₹' + Number(v).toLocaleString('en-IN') } },
+              x: { ticks: { font: { size: 10 } } }
+            }
+          }
+        });
+
+        document.getElementById('snapshot-pills').innerHTML = keys.map(k => `
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-forest-50 px-2.5 py-1 text-[11px] font-medium text-forest-900">
+            ${k}: ${formatINR(m.snapshots[k].income - m.snapshots[k].expenses)} left
+            <button type="button" data-del-snap="${k}" class="text-ink-400 hover:text-red-600" title="Remove snapshot">&times;</button>
+          </span>
+        `).join('');
+
+        document.querySelectorAll('[data-del-snap]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            delete currentMode().snapshots[btn.getAttribute('data-del-snap')];
+            persist();
+            renderSnapshots(currentMode());
+            showToast('Snapshot removed');
+          });
+        });
+      }
+
+      function renderGoals(m) {
+        const listEl = document.getElementById('goals-list');
+        if (!m.goals || m.goals.length === 0) {
+          listEl.innerHTML = `<p class="text-xs text-ink-400">No goals yet. Start with something you're saving for.</p>`;
+          return;
+        }
+        listEl.innerHTML = m.goals.map(g => {
+          const pct = g.target > 0 ? Math.min(100, Math.round((g.saved / g.target) * 100)) : 0;
+          const remaining = Math.max(0, g.target - g.saved);
+          const perMonth = g.months > 0 ? Math.ceil(remaining / g.months) : remaining;
+          return `
+            <div class="rounded-xl border border-forest-900/10 bg-cream/50 p-3.5">
+              <div class="flex items-center justify-between gap-2">
+                <p class="text-xs font-semibold text-ink-900">${g.name}</p>
+                <div class="flex items-center gap-2">
+                  <button type="button" data-add-goal="${g.id}" class="rounded-md bg-forest-100 px-2 py-0.5 text-[11px] font-semibold text-forest-900 hover:bg-olive-200">+₹1,000</button>
+                  <button type="button" data-del-goal="${g.id}" class="text-xs text-ink-400 hover:text-red-600" aria-label="Delete goal">&times;</button>
+                </div>
+              </div>
+              <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-forest-900/10">
+                <div class="h-full rounded-full bg-forest-800 transition-all" style="width:${pct}%"></div>
+              </div>
+              <div class="mt-2 flex flex-wrap items-center justify-between gap-2 text-[11px] text-ink-600">
+                <span>${formatINR(g.saved)} of ${formatINR(g.target)} (${pct}%)</span>
+                <span>${remaining > 0 ? `${formatINR(perMonth)}/mo for ${g.months}m` : 'Goal reached!'}</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        listEl.querySelectorAll('[data-add-goal]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const goal = currentMode().goals.find(x => String(x.id) === btn.getAttribute('data-add-goal'));
+            if (goal) {
+              goal.saved = Math.min(goal.target, goal.saved + 1000);
+              persist();
+              renderGoals(currentMode());
+              showToast(`Added ₹1,000 to ${goal.name}`);
+            }
+          });
+        });
+
+        listEl.querySelectorAll('[data-del-goal]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-del-goal');
+            currentMode().goals = currentMode().goals.filter(x => String(x.id) !== id);
+            persist();
+            renderGoals(currentMode());
+            showToast('Goal removed');
+          });
+        });
+      }
+
+      function updateEmergencyUI(m, totals) {
+        const months = Number(m.emergencyMonths) || 6;
+        const saved = Math.max(0, Number(m.emergencySaved) || 0);
+        const target = totals.totalExpenses * months;
+        const stillToBuild = Math.max(0, target - saved);
+        document.getElementById('emergency-formula-text').textContent = `${months} months × ${formatINR(totals.totalExpenses)} monthly expenses`;
+        document.getElementById('emergency-target-text').textContent = formatINR(target);
+        document.getElementById('emergency-gap-text').textContent = `${formatINR(saved)} saved · ${formatINR(stillToBuild)} still to build`;
+        document.getElementById('emergency-range-text').textContent = `3–6 month range: ${formatINR(totals.totalExpenses * 3)}–${formatINR(totals.totalExpenses * 6)}`;
+      }
+
+      function updateSIP() {
+        const p = Number(document.getElementById('sip-amount-range').value) || 0;
+        const years = Number(document.getElementById('sip-years-range').value) || 1;
+        const rate = Number(document.getElementById('sip-rate-range').value) || 12;
+
+        document.getElementById('sip-amount-label').textContent = `${formatINR(p)} / mo`;
+        document.getElementById('sip-years-label').textContent = `${years} ${years === 1 ? 'year' : 'years'}`;
+        document.getElementById('sip-rate-label').textContent = `${rate}% p.a.`;
+
+        const labels = [];
+        const investedSeries = [];
+        const totalSeries = [];
+        const r = rate / 12 / 100;
+
+        for (let y = 1; y <= years; y++) {
+          const n = y * 12;
+          const inv = p * n;
+          const val = r > 0 ? p * ((Math.pow(1 + r, n) - 1) / r) * (1 + r) : inv;
+          labels.push(`Yr ${y}`);
+          investedSeries.push(Math.round(inv));
+          totalSeries.push(Math.round(val));
+        }
+
+        const finalInv = investedSeries[investedSeries.length - 1] || 0;
+        const finalTot = totalSeries[totalSeries.length - 1] || 0;
+        document.getElementById('sip-invested').textContent = formatINR(finalInv);
+        document.getElementById('sip-returns').textContent = formatINR(finalTot - finalInv);
+        document.getElementById('sip-total').textContent = formatINR(finalTot);
+
+        if (sipChart) sipChart.destroy();
+        const ctx = document.getElementById('sipGrowthChart').getContext('2d');
+        sipChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [
+              { label: 'Projected Value', data: totalSeries, borderColor: '#193929', backgroundColor: 'rgba(25,57,41,0.1)', fill: true, tension: 0.3 },
+              { label: 'Total Invested', data: investedSeries, borderColor: '#A3B882', borderDash: [4, 4], fill: false, tension: 0.1 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 } } } },
+            scales: {
+              y: { beginAtZero: true, ticks: { font: { size: 10 }, callback: (v) => '₹' + Math.round(v / 100000) + 'L' } },
+              x: { ticks: { font: { size: 10 }, maxTicksLimit: 8 } }
+            }
+          }
+        });
+      }
+
+      function updateUI(rebuildInputs = true) {
+        const m = currentMode();
+        const totals = computeTotals(m);
+        const health = computeHealthScore(m, totals);
+
+        document.getElementById('hero-health-score').textContent = `${health} / 100`;
+
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+          const active = btn.getAttribute('data-mode') === state.activeMode;
+          btn.className = active
+            ? 'mode-btn rounded-full px-3 py-1.5 text-xs font-medium transition-colors bg-forest-900 text-white'
+            : 'mode-btn rounded-full px-3 py-1.5 text-xs font-medium transition-colors text-ink-600 hover:text-forest-900';
+        });
+
+        document.getElementById('hero-available').textContent = formatINR(totals.left);
+        document.getElementById('hero-goal-line').textContent = totals.left >= 0
+          ? `${formatINR(totals.left)} left to put toward your next goal.`
+          : `You are ${formatINR(Math.abs(totals.left))} over budget this month.`;
+        document.getElementById('hero-income').textContent = formatINR(totals.income);
+        document.getElementById('hero-expenses').textContent = formatINR(totals.totalExpenses);
+        document.getElementById('hero-mode-badge').textContent = m.badge;
+
+        document.getElementById('hero-spent-pct').textContent = `${Math.round(totals.spentPct)}%`;
+        const clampedPct = Math.min(100, Math.max(0, totals.spentPct));
+        document.getElementById('hero-ring-circle').style.strokeDashoffset = 314.16 - (314.16 * clampedPct) / 100;
+
+        document.getElementById('kpi-income').textContent = formatINR(totals.income);
+        document.getElementById('kpi-income-sub').textContent = m.incomeSub;
+        document.getElementById('kpi-expenses').textContent = formatINR(totals.totalExpenses);
+        document.getElementById('kpi-expenses-sub').textContent = `${totals.spentPct.toFixed(1)}% of income spent`;
+        document.getElementById('kpi-left').textContent = formatINR(totals.left);
+        document.getElementById('kpi-savings-rate').textContent = `${totals.savingsRate.toFixed(1)}%`;
+
+        const leftCard = document.getElementById('kpi-left-card');
+        if (totals.left < 0) {
+          leftCard.classList.remove('bg-forest-100', 'border-olive-300/60');
+          leftCard.classList.add('bg-red-50', 'border-red-200');
+        } else {
+          leftCard.classList.add('bg-forest-100', 'border-olive-300/60');
+          leftCard.classList.remove('bg-red-50', 'border-red-200');
+        }
+
+        // 50/30/20 Rule
+        const hasInc = totals.income > 0;
+        const nPct = hasInc ? Math.round((totals.needs / totals.income) * 100) : 0;
+        const wPct = hasInc ? Math.round((totals.wants / totals.income) * 100) : 0;
+        const sPct = hasInc ? Math.max(0, Math.round(totals.savingsRate)) : 0;
+        document.getElementById('rule-needs-pct').textContent = `${nPct}%`;
+        document.getElementById('rule-wants-pct').textContent = `${wPct}%`;
+        document.getElementById('rule-save-pct').textContent = `${sPct}%`;
+        document.getElementById('rule-needs-bar').style.width = `${Math.min(100, nPct)}%`;
+        document.getElementById('rule-wants-bar').style.width = `${Math.min(100, wPct)}%`;
+        document.getElementById('rule-save-bar').style.width = `${Math.min(100, sPct)}%`;
+        document.getElementById('rule-badge').textContent = !hasInc ? 'Add income to check' : (sPct >= 20 ? 'Healthy 20%+ savings' : 'Needs > 50% or low savings');
+
+        document.getElementById('donut-center-total').textContent = formatINR(totals.totalExpenses);
+        if (donutChart) {
+          donutChart.data.datasets[0].data = CATEGORIES.map(c => m.expenses[c.key] || 0);
+          donutChart.update();
+        }
+        document.getElementById('category-breakdown-list').innerHTML = CATEGORIES.map(c => {
+          const val = m.expenses[c.key] || 0;
+          const pct = totals.totalExpenses > 0 ? Math.round((val / totals.totalExpenses) * 100) : 0;
+          return `
+            <div class="flex items-center justify-between border-b border-forest-900/5 pb-1.5 last:border-0">
+              <div class="flex items-center gap-2">
+                <span class="h-2 w-2 rounded-full" style="background-color:${c.color}"></span>
+                <span class="text-ink-900">${c.label}</span>
+              </div>
+              <span class="font-medium text-ink-600">${formatINR(val)} · ${pct}%</span>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('calculator-title').textContent = m.title;
+        if (rebuildInputs) {
+          document.getElementById('income-input').value = m.income;
+          document.getElementById('emergency-saved-input').value = m.emergencySaved;
+          document.getElementById('emergency-months-select').value = String(m.emergencyMonths);
+          renderExpenseInputs();
+        }
+
+        const verdictEl = document.getElementById('ai-live-verdict');
+        if (totals.savingsRate >= 20) {
+          verdictEl.innerHTML = `Hi ${currentUser ? currentUser.name.split(' ')[0] : 'there'}, your Financial Health Score is <strong class="text-olive-300">${health}/100</strong> with a <strong>${totals.savingsRate.toFixed(1)}%</strong> savings rate (${formatINR(totals.left)}/mo).`;
+        } else if (totals.left >= 0) {
+          verdictEl.innerHTML = `Your savings rate is <strong class="text-olive-300">${totals.savingsRate.toFixed(1)}%</strong> (${formatINR(totals.left)}/mo). Trimming ${formatINR(Math.max(0, totals.income * 0.2 - totals.left))} from flexible spending lifts you to 20%.`;
+        } else {
+          verdictEl.innerHTML = `Expenses exceed income by <strong class="text-amber-300">${formatINR(Math.abs(totals.left))}</strong>. Open Nexus AI for a step-by-step recovery plan.`;
+        }
+
+        renderTips(m, totals);
+        renderSnapshots(m);
+        renderGoals(m);
+        renderTransactions(m);
+        updateEmergencyUI(m, totals);
+      }
+
+      function generateAIResponse(query) {
+        const q = query.toLowerCase();
+        const m = currentMode();
+        const t = computeTotals(m);
+        const health = computeHealthScore(m, t);
+        const sorted = [...CATEGORIES].map(c => ({ ...c, val: m.expenses[c.key] || 0 })).sort((a, b) => b.val - a.val);
+        const top = sorted[0];
+        const emTarget = t.totalExpenses * (Number(m.emergencyMonths) || 6);
+        const emGap = Math.max(0, emTarget - (Number(m.emergencySaved) || 0));
+
+        if (q.includes('5,000') || q.includes('5000') || q.includes('save more') || q.includes('cut')) {
+          return `To save ₹5,000 more per month in <strong>${m.badge}</strong>:<br/>
+          • Trim 25% of Lifestyle (${formatINR((m.expenses.lifestyle || 0) * 0.25)}) and optimize Electricity &amp; Internet (${formatINR((m.expenses.utilities || 0) * 0.2)}).<br/>
+          • That lifts your savings rate from ${t.savingsRate.toFixed(1)}% to <strong>${t.income > 0 ? (((t.left + 5000) / t.income) * 100).toFixed(1) : 0}%</strong>.`;
+        }
+        if (q.includes('emergency') || q.includes('goal') || q.includes('safety')) {
+          const monthsToBuild = t.left > 0 ? Math.ceil(emGap / t.left) : 'N/A';
+          return `<strong>Emergency &amp; Goals Check:</strong><br/>
+          • Target (${m.emergencyMonths}m cover): <strong>${formatINR(emTarget)}</strong>. Still to build: <strong>${formatINR(emGap)}</strong>.<br/>
+          • At ${formatINR(t.left)}/mo surplus, you can finish this in ~<strong>${monthsToBuild} months</strong>. Active goals: <strong>${m.goals.length}</strong>.`;
+        }
+        if (q.includes('sip') || q.includes('invest') || q.includes('wealth')) {
+          const suggestedSIP = Math.max(1000, Math.round(Math.max(0, t.left) * 0.6 / 500) * 500);
+          return `<strong>SIP &amp; Wealth Plan:</strong><br/>
+          • Keep 40% of surplus (${formatINR(Math.max(0, t.left) * 0.4)}) liquid until your emergency fund is ready.<br/>
+          • Invest <strong>${formatINR(suggestedSIP)}/month</strong> in an Index/Flexi-cap SIP (Section 05 shows your 10-year compounding curve).`;
+        }
+        return `<strong>${currentUser ? currentUser.name : 'Your'} ${m.badge} Analysis (Score: ${health}/100):</strong><br/>
+        • Income: <strong>${formatINR(t.income)}</strong> · Expenses: <strong>${formatINR(t.totalExpenses)}</strong> (${t.spentPct.toFixed(1)}%)<br/>
+        • Biggest category: <strong>${top.label}</strong> (${formatINR(top.val)}).<br/>
+        • 50/30/20 split: Needs ${Math.round((t.needs / (t.income || 1)) * 100)}% / Wants ${Math.round((t.wants / (t.income || 1)) * 100)}% / Savings ${t.savingsRate.toFixed(1)}%.`;
+      }
+
+      function appendAIMessage(role, html) {
+        const box = document.getElementById('ai-chat-messages');
+        const div = document.createElement('div');
+        div.className = role === 'user'
+          ? 'ml-auto max-w-[85%] rounded-2xl rounded-tr-sm bg-forest-900 px-4 py-2.5 text-white'
+          : 'mr-auto max-w-[90%] rounded-2xl rounded-tl-sm border border-forest-900/10 bg-white px-4 py-3 text-ink-900 shadow-xs';
+        div.innerHTML = html;
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+      }
+
+      function openAIModal(initialPrompt) {
+        const modal = document.getElementById('ai-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        const box = document.getElementById('ai-chat-messages');
+        if (box.children.length === 0) {
+          appendAIMessage('ai', `Hi ${currentUser ? currentUser.name.split(' ')[0] : ''}! I’m <strong>Nexus AI</strong>. Ask me anything about your budget, 50/30/20 split, emergency fund, or SIP plan.`);
+        }
+        if (initialPrompt) {
+          appendAIMessage('user', initialPrompt);
+          appendAIMessage('ai', generateAIResponse(initialPrompt));
+        }
+      }
+
+      // Auth Tab & Form Handlers
+      document.getElementById('tab-signin').addEventListener('click', () => {
+        document.getElementById('signin-form').classList.remove('hidden');
+        document.getElementById('signup-form').classList.add('hidden');
+        document.getElementById('tab-signin').className = 'rounded-full bg-forest-900 px-4 py-1.5 text-xs font-semibold text-white transition';
+        document.getElementById('tab-signup').className = 'rounded-full px-4 py-1.5 text-xs font-semibold text-ink-600 transition hover:bg-cream';
+      });
+      document.getElementById('tab-signup').addEventListener('click', () => {
+        document.getElementById('signup-form').classList.remove('hidden');
+        document.getElementById('signin-form').classList.add('hidden');
+        document.getElementById('tab-signup').className = 'rounded-full bg-forest-900 px-4 py-1.5 text-xs font-semibold text-white transition';
+        document.getElementById('tab-signin').className = 'rounded-full px-4 py-1.5 text-xs font-semibold text-ink-600 transition hover:bg-cream';
+      });
+
+      document.getElementById('signin-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('signin-email').value.trim().toLowerCase();
+        const pass = document.getElementById('signin-password').value;
+        const err = document.getElementById('signin-error');
+        const user = getUsers().find(u => u.email === email && u.password === pass);
+        if (!user) {
+          err.textContent = 'Invalid email or password. Please check your details or Create Account.';
+          err.classList.remove('hidden');
+          return;
+        }
+        err.classList.add('hidden');
+        enterApp({ name: user.name, email: user.email });
+        showToast(`Welcome back, ${user.name}!`);
+      });
+      document.getElementById('signup-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('signup-name').value.trim();
+        const email = document.getElementById('signup-email').value.trim().toLowerCase();
+        const password = document.getElementById('signup-password').value;
+        const err = document.getElementById('signup-error');
+        const users = getUsers();
+        if (users.find(u => u.email === email)) {
+          err.textContent = 'An account with this email already exists. Please Sign In.';
+          err.classList.remove('hidden');
+          return;
+        }
+        err.classList.add('hidden');
+        users.push({ name, email, password });
+        saveUsers(users);
+        saveUserData(email, createUserState());
+        enterApp({ name, email });
+        showToast(`Account created for ${name}!`);
+      });
+
+      document.getElementById('logout-btn').addEventListener('click', logout);
+      document.getElementById('export-data-btn').addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify({ user: currentUser, data: state }, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `nexus-ai-${currentUser ? currentUser.email.split('@')[0] : 'backup'}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('Exported your financial data');
+      });
+
+      // Populate tx category dropdown
+      document.getElementById('tx-cat').innerHTML = CATEGORIES.map(c => `<option value="${c.key}">${c.label}</option>`).join('');
+
+      document.getElementById('tx-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const desc = document.getElementById('tx-desc').value.trim();
+        const catKey = document.getElementById('tx-cat').value;
+        const amount = Math.max(1, Number(document.getElementById('tx-amount').value) || 0);
+        const addToBudget = document.getElementById('tx-add-to-budget').checked;
+        if (!desc) return;
+        const cat = CATEGORIES.find(c => c.key === catKey);
+        const m = currentMode();
+        m.transactions.unshift({
+          id: Date.now(),
+          desc,
+          catKey,
+          catLabel: cat ? cat.label : catKey,
+          amount,
+          date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })
+        });
+        if (addToBudget) {
+          m.expenses[catKey] = (Number(m.expenses[catKey]) || 0) + amount;
+        }
+        persist();
+        updateUI(true);
+        document.getElementById('tx-desc').value = '';
+        document.getElementById('tx-amount').value = '';
+        showToast(`Logged ${formatINR(amount)} under ${cat ? cat.label : catKey}`);
+      });
+
+      document.getElementById('tx-search').addEventListener('input', () => renderTransactions(currentMode()));
+
+      // App Event Listeners
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.activeMode = btn.getAttribute('data-mode');
+          persist();
+          updateUI(true);
+        });
+      });
+
+      document.getElementById('toggle-cartoons-btn').addEventListener('click', (e) => {
+        state.cartoonsPaused = !state.cartoonsPaused;
+        document.body.classList.toggle('paused-cartoons', state.cartoonsPaused);
+        e.target.textContent = state.cartoonsPaused ? 'Play cartoons' : 'Pause cartoons';
+        persist();
+      });
+
+      document.getElementById('income-input').addEventListener('input', (e) => {
+        currentMode().income = Math.max(0, Number(e.target.value) || 0);
+        persist();
+        updateUI(false);
+      });
+
+      document.getElementById('calculate-budget-btn').addEventListener('click', () => {
+        const m = currentMode();
+        m.income = Math.max(0, Number(document.getElementById('income-input').value) || 0);
+        document.querySelectorAll('.expense-input').forEach(inp => {
+          const key = inp.getAttribute('data-exp-key');
+          m.expenses[key] = Math.max(0, Number(inp.value) || 0);
+        });
+        persist();
+        updateUI(false);
+        const t = computeTotals(m);
+        document.getElementById('calc-result-left').textContent = formatINR(t.left);
+        document.getElementById('calc-result-expenses').textContent = formatINR(t.totalExpenses);
+        document.getElementById('calc-result-rate').textContent = `${t.savingsRate.toFixed(1)}%`;
+        document.getElementById('budget-calc-result').classList.remove('hidden');
+        showToast('Budget calculated');
+      });
+
+      document.getElementById('reset-example-btn').addEventListener('click', () => {
+        const def = MODE_DEFAULTS[state.activeMode];
+        currentMode().income = 0;
+        currentMode().expenses = clone(def.expenses);
+        persist();
+        updateUI(true);
+        document.getElementById('budget-calc-result').classList.add('hidden');
+        showToast('Cleared amounts');
+      });
+
+      document.getElementById('save-snapshot-btn').addEventListener('click', () => {
+        const month = document.getElementById('snapshot-month-select').value;
+        const m = currentMode();
+        const t = computeTotals(m);
+        m.snapshots[month] = { income: t.income, expenses: t.totalExpenses };
+        persist();
+        renderSnapshots(m);
+        showToast(`Saved ${month} snapshot`);
+      });
+
+      document.getElementById('goal-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('goal-name').value.trim();
+        const target = Math.max(100, Number(document.getElementById('goal-target').value) || 0);
+        const saved = Math.max(0, Number(document.getElementById('goal-saved').value) || 0);
+        const months = Math.max(1, Number(document.getElementById('goal-months').value) || 1);
+        if (!name) return;
+        currentMode().goals.push({ id: Date.now(), name, target, saved, months });
+        persist();
+        renderGoals(currentMode());
+        document.getElementById('goal-name').value = '';
+        showToast(`Added goal: ${name}`);
+      });
+
+      document.getElementById('update-safety-net-btn').addEventListener('click', () => {
+        const m = currentMode();
+        m.emergencySaved = Math.max(0, Number(document.getElementById('emergency-saved-input').value) || 0);
+        m.emergencyMonths = Number(document.getElementById('emergency-months-select').value) || 6;
+        persist();
+        updateUI(false);
+        showToast('Safety net updated');
+      });
+
+      ['emergency-saved-input', 'emergency-months-select'].forEach(id => {
+        document.getElementById(id).addEventListener('input', () => {
+          const m = currentMode();
+          m.emergencySaved = Math.max(0, Number(document.getElementById('emergency-saved-input').value) || 0);
+          m.emergencyMonths = Number(document.getElementById('emergency-months-select').value) || 6;
+          persist();
+          updateUI(false);
+        });
+      });
+
+      ['sip-amount-range', 'sip-years-range', 'sip-rate-range'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updateSIP);
+      });
+
+      document.getElementById('open-ai-header-btn').addEventListener('click', () => openAIModal());
+      document.getElementById('open-ai-card-btn').addEventListener('click', () => openAIModal());
+      document.getElementById('close-ai-modal').addEventListener('click', () => {
+        document.getElementById('ai-modal').classList.add('hidden');
+        document.getElementById('ai-modal').classList.remove('flex');
+      });
+      document.querySelectorAll('.quick-ai-chip, .modal-ai-chip').forEach(btn => {
+        btn.addEventListener('click', () => openAIModal(btn.getAttribute('data-ai-prompt')));
+      });
+      document.getElementById('ai-chat-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const inp = document.getElementById('ai-chat-input');
+        const txt = inp.value.trim();
+        if (!txt) return;
+        appendAIMessage('user', txt);
+        appendAIMessage('ai', generateAIResponse(txt));
+        inp.value = '';
+      });
+
+      document.getElementById('open-import-btn').addEventListener('click', () => {
+        document.getElementById('import-modal').classList.remove('hidden');
+        document.getElementById('import-modal').classList.add('flex');
+      });
+      ['close-import-modal', 'cancel-import-btn'].forEach(id => {
+        document.getElementById(id).addEventListener('click', () => {
+          document.getElementById('import-modal').classList.add('hidden');
+          document.getElementById('import-modal').classList.remove('flex');
+        });
+      });
+
+      document.getElementById('apply-import-btn').addEventListener('click', () => {
+        const raw = document.getElementById('import-textarea').value;
+        const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+        let updated = 0;
+        const m = currentMode();
+        lines.forEach(line => {
+          const parts = line.split(/[,:\t]+/);
+          if (parts.length >= 2) {
+            const name = parts[0].toLowerCase().trim();
+            const val = Number(parts[1].replace(/[^\d.]/g, ''));
+            if (!isNaN(val)) {
+              const match = CATEGORIES.find(c =>
+                c.label.toLowerCase().includes(name) || name.includes(c.key) || c.key.includes(name)
+              );
+              if (match) { m.expenses[match.key] = Math.max(0, val); updated++; }
+            }
+          }
+        });
+        persist();
+        updateUI(true);
+        document.getElementById('import-modal').classList.add('hidden');
+        document.getElementById('import-modal').classList.remove('flex');
+        showToast(updated > 0 ? `Imported ${updated} categories` : 'No matching categories found');
+      });
+
+      // Init
+      lucide.createIcons();
+      getUsers();
+      try {
+        const sess = localStorage.getItem(SESSION_KEY);
+        if (sess) {
+          const parsed = JSON.parse(sess);
+          if (parsed && parsed.email) enterApp(parsed);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>
